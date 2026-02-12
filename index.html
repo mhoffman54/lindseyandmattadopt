@@ -4,109 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lindsey & Matt | Our Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.8);
-            --accent: #5b7a8c;
+            --bg: #f8f9fa;
+            --accent: #5b7a8c; /* Soft, modern blue */
+            --glass: rgba(255, 255, 255, 0.7);
             --text: #2d3436;
         }
 
+        * { box-sizing: border-box; }
         body { 
             margin: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background: #f0f2f5; 
-            color: var(--text);
-            line-height: 1.6;
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            overflow-x: hidden;
         }
 
+        /* Hero Section */
         header {
-            padding: 80px 20px;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            background: white;
-            border-bottom: 1px solid #ddd;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('your-hero-photo.jpg') center/cover no-repeat;
+            color: white;
+            padding: 20px;
         }
 
-        h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--accent); }
+        .hero-content h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin: 0; font-weight: 700; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+        .hero-content p { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        /* Content Sections */
+        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
 
-        /* The Masonry Grid */
-        .gallery {
-            column-count: 3;
-            column-gap: 20px;
+        .intro-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 100px;
+            font-size: 1.2rem;
+            line-height: 1.8;
         }
 
-        @media (max-width: 900px) { .gallery { column-count: 2; } }
-        @media (max-width: 600px) { .gallery { column-count: 1; } }
+        /* The "High-Effort" Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
 
-        .photo-item {
+        .card {
             background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            margin-bottom: 20px;
-            break-inside: avoid;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            cursor: pointer;
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        .photo-item:hover { transform: translateY(-5px); }
+        .card.visible { opacity: 1; transform: translateY(0); }
+        .card:hover { transform: scale(1.02); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
 
-        .photo-item img {
-            width: 100%;
-            border-radius: 10px;
-            display: block;
+        .card img { width: 100%; border-radius: 18px; display: block; }
+        .card-info { padding: 20px 10px; }
+        .card-info h3 { margin: 0 0 10px 0; font-size: 1.3rem; color: var(--accent); }
+        .card-info p { margin: 0; font-size: 0.95rem; color: #636e72; }
+
+        /* Footer */
+        footer { padding: 100px 20px; text-align: center; background: white; border-top: 1px solid #eee; }
+        .contact-btn {
+            background: var(--accent);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            transition: 0.3s;
         }
-
-        .caption { padding: 15px 5px 5px 5px; font-weight: 500; font-size: 0.95rem; }
-
-        /* Lightbox CSS */
-        #lightbox {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            align-items: center; justify-content: center;
-        }
-
-        #lightbox img { max-width: 90%; max-height: 80%; border-radius: 5px; }
+        .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(91, 122, 140, 0.3); }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Hi, We're Lindsey & Matt.</h1>
-    <p>We’re so glad you’re here. Here’s a look at our life in Minnesota.</p>
+    <div class="hero-content">
+        <h1>Hi, We're Lindsey & Matt</h1>
+        <p>A life built on love, laughter, and a whole lot of projects.</p>
+    </div>
 </header>
 
 <div class="container">
-    <div class="gallery">
-        <div class="photo-item" onclick="openLightbox(this)">
-            <img src="https://via.placeholder.com/400x600" alt="Adventure">
-            <div class="caption">A typical Saturday morning with Wyatt and Harley.</div>
+    <div class="intro-text">
+        <p>We’re so glad you’re here. We’ve spent years building a home in Richfield filled with dogs, DIY projects, and Vikings football—but there's one piece of the puzzle still missing.</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <img src="wyatt-and-harley.jpg" alt="Wyatt and Harley">
+            <div class="card-info">
+                <h3>The Welcome Committee</h3>
+                <p>Wyatt and Harley are the heartbeat of our home. They've been our companions on every trip to Ely and every Sunday game day.</p>
+            </div>
         </div>
 
-        <div class="photo-item" onclick="openLightbox(this)">
-            <img src="https://via.placeholder.com/400x300" alt="Home">
-            <div class="caption">Our favorite spot in the house (the theater room!).</div>
+        <div class="card">
+            <img src="home-theater.jpg" alt="Our Home">
+            <div class="card-info">
+                <h3>Built to Share</h3>
+                <p>From our home theater room to the backyard, our house is ready for Disney movies and real adventures.</p>
+            </div>
         </div>
 
+        <div class="card">
+            <img src="family-photo.jpg" alt="Family">
+            <div class="card-info">
+                <h3>A Big Support System</h3>
+                <p>We're lucky to be surrounded by family who can't wait to welcome a new member to the crew.</p>
+            </div>
         </div>
+    </div>
 </div>
 
-<div id="lightbox" onclick="this.style.display='none'">
-    <img id="lightbox-img" src="">
-</div>
+<footer>
+    <h2>We’d love to hear from you.</h2>
+    <p>If you'd like to learn more about our journey, reach out anytime.</p>
+    <br>
+    <a href="mailto:your-email@example.com" class="contact-btn">Get in Touch</a>
+</footer>
 
 <script>
-    function openLightbox(element) {
-        const imgSrc = element.querySelector('img').src;
-        document.getElementById('lightbox-img').src = imgSrc;
-        document.getElementById('lightbox').style.display = 'flex';
-    }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card').forEach(card => observer.observe(card));
 </script>
 
 </body>
