@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lindsey & Matt | Our Journey</title>
+    <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.8);
+            --accent: #5b7a8c;
+            --text: #2d3436;
+        }
+
+        body { 
+            margin: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background: #f0f2f5; 
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 80px 20px;
+            text-align: center;
+            background: white;
+            border-bottom: 1px solid #ddd;
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--accent); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+        /* The Masonry Grid */
+        .gallery {
+            column-count: 3;
+            column-gap: 20px;
+        }
+
+        @media (max-width: 900px) { .gallery { column-count: 2; } }
+        @media (max-width: 600px) { .gallery { column-count: 1; } }
+
+        .photo-item {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            break-inside: avoid;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-item:hover { transform: translateY(-5px); }
+
+        .photo-item img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .caption { padding: 15px 5px 5px 5px; font-weight: 500; font-size: 0.95rem; }
+
+        /* Lightbox CSS */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            align-items: center; justify-content: center;
+        }
+
+        #lightbox img { max-width: 90%; max-height: 80%; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Hi, We're Lindsey & Matt.</h1>
+    <p>We’re so glad you’re here. Here’s a look at our life in Minnesota.</p>
+</header>
+
+<div class="container">
+    <div class="gallery">
+        <div class="photo-item" onclick="openLightbox(this)">
+            <img src="https://via.placeholder.com/400x600" alt="Adventure">
+            <div class="caption">A typical Saturday morning with Wyatt and Harley.</div>
+        </div>
+
+        <div class="photo-item" onclick="openLightbox(this)">
+            <img src="https://via.placeholder.com/400x300" alt="Home">
+            <div class="caption">Our favorite spot in the house (the theater room!).</div>
+        </div>
+
+        </div>
+</div>
+
+<div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="">
+</div>
+
+<script>
+    function openLightbox(element) {
+        const imgSrc = element.querySelector('img').src;
+        document.getElementById('lightbox-img').src = imgSrc;
+        document.getElementById('lightbox').style.display = 'flex';
+    }
+</script>
+
+</body>
+</html>
