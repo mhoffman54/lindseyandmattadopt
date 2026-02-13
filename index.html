@@ -8,21 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Lora:ital,wght@1,500&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* NEW: More Vibrant, Organic Palette */
             --bg-gradient: linear-gradient(135deg, #FFF5E4 0%, #FFE3D8 100%); /* Soft Sunrise */
             --card-white: rgba(255, 255, 255, 0.92);
-            --terracotta: #E76F51;
-            --sage-green: #2A9D8F;
-            --deep-text: #264653;
+            --terracotta: #E76F51; /* More vibrant orange-red */
+            --sage-green: #2A9D8F; /* Richer teal-green */
+            --deep-text: #264653; /* Softer than black, deep blue-grey */
             --accent-gold: #E9C46A;
         }
 
+        /* RESET & BASE */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             margin: 0; 
             font-family: 'Quicksand', sans-serif; 
             background: var(--bg-gradient); 
-            background-attachment: fixed;
+            background-attachment: fixed; /* Keeps gradient stable while scrolling */
             color: var(--deep-text);
             line-height: 1.6;
             min-height: 100vh;
@@ -34,15 +36,16 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* HEADER */
+        /* HEADER - Now with organic curves */
         header {
             padding: 70px 20px 60px;
             text-align: center;
             background: white;
+            /* The "Wavy" bottom effect using border-radius */
             border-bottom-left-radius: 50% 20px;
             border-bottom-right-radius: 50% 20px;
             position: relative;
-            box-shadow: 0 10px 40px rgba(231, 111, 81, 0.1);
+            box-shadow: 0 10px 40px rgba(231, 111, 81, 0.1); /* Warm glow shadow */
         }
 
         h1 { 
@@ -51,7 +54,7 @@
             font-size: clamp(2.2rem, 5vw, 3.8rem); 
             line-height: 1.2;
             margin-bottom: 15px;
-            color: var(--terracotta);
+            color: var(--terracotta); /* Pop of color in title */
             animation: fadeInScale 1s ease-out;
         }
 
@@ -62,7 +65,7 @@
             color: #555;
         }
 
-        /* NAVIGATION */
+        /* NAVIGATION - Colorful & Friendly */
         nav { 
             display: flex; 
             justify-content: center;
@@ -89,10 +92,10 @@
             border-radius: 30px;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 2px solid transparent; /* Slightly chunkier border */
             font-size: 0.9rem;
             flex-shrink: 0;
-            background: rgba(233, 196, 106, 0.15);
+            background: rgba(233, 196, 106, 0.15); /* Subtle gold tint */
         }
 
         .nav-link.active {
@@ -102,13 +105,14 @@
             box-shadow: 0 4px 12px rgba(231, 111, 81, 0.4);
         }
 
+        /* MOBILE OPTIMIZATION */
         @media (max-width: 768px) {
             nav { justify-content: flex-start; padding: 15px; }
             header { padding-top: 50px; }
             .nav-link { padding: 8px 18px; }
         }
 
-        /* CARDS */
+        /* CARDS - Glassy & Warm */
         .page-content { 
             display: none; 
             padding: 40px 20px; 
@@ -123,61 +127,75 @@
             background: var(--card-white);
             border-radius: 30px;
             padding: 30px;
-            box-shadow: 0 15px 35px rgba(231, 111, 81, 0.08);
+            box-shadow: 0 15px 35px rgba(231, 111, 81, 0.08); /* Warm shadow */
             margin-bottom: 30px;
-            border: 2px solid white;
+            border: 2px solid white; /* crisp edge */
         }
 
         h2 { color: var(--sage-green); margin-top: 0; }
         h3 { color: var(--terracotta); }
 
-        /* --- UPDATED FEATURE IMAGE STYLES --- */
+        /* --- UPDATED FEATURE IMAGE STYLES (3D EFFECT) --- */
         .feature-img-wrapper {
             overflow: hidden;
-            border-radius: 20px;
+            border-radius: 10px; /* Slightly sharper corners for photo look */
             margin-bottom: 25px;
-            /* Base shadow */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            
+            /* White Photo Border */
+            border: 6px solid #fff;
+            
+            /* DARKER, DEEPER SHADOW for 3D effect */
+            box-shadow: 5px 15px 35px rgba(50, 50, 93, 0.25), 0 5px 15px rgba(0, 0, 0, 0.15);
+            
             /* Base tilt */
             transform: rotate(-1.5deg); 
             /* Smooth transition for transform AND shadow */
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        /* Hover effect: straighten, lift up, big shadow */
+        /* Hover effect: straighten, lift up, EVEN DARKER shadow */
         .feature-card:hover .feature-img-wrapper { 
-            transform: rotate(0deg) scale(1.03) translateY(-5px); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            transform: rotate(0deg) scale(1.03) translateY(-8px); 
+            box-shadow: 0 30px 60px rgba(50, 50, 93, 0.4), 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 5;
         }
 
         .feature-img { width: 100%; display: block; }
 
+        /* DOG GRID */
         .dog-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 25px; 
         }
 
-        /* --- UPDATED GALLERY GRID STYLES --- */
+        /* GALLERY GRID */
         .gallery-grid {
             column-count: 3;
-            column-gap: 20px;
+            column-gap: 25px; /* Increased gap for 3D floating space */
         }
         @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
         @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
 
+        /* --- UPDATED GALLERY ITEM STYLES (3D EFFECT) --- */
         .gallery-item {
             break-inside: avoid;
-            margin-bottom: 20px;
-            border-radius: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px; /* Slightly sharper like a real photo */
             overflow: hidden;
             background: #eee;
             position: relative;
-            border: 4px solid white;
+            
+            /* WHITE PHOTO BORDER */
+            border: 6px solid white; 
+            
             cursor: pointer;
-            /* Base shadow and smooth transition */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            
+            /* DARKER 3D SHADOW */
+            box-shadow: 5px 10px 20px rgba(0,0,0,0.25), 0 3px 6px rgba(0,0,0,0.1);
+            
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            
             /* Default slight tilt */
             transform: rotate(-1deg);
         }
@@ -189,12 +207,15 @@
         .gallery-item:nth-child(3n) { transform: rotate(-2deg) translateX(-5px); }
         /* Every 5th item is mostly straight but offset */
         .gallery-item:nth-child(5n) { transform: rotate(0.5deg) translateY(-5px); }
+        /* Every 7th item tilts right harder */
+        .gallery-item:nth-child(7n) { transform: rotate(2.5deg); }
 
-        /* HOVER EFFECT - Straighten and BIG pop for ALL items */
+        /* HOVER EFFECT - Straighten and HUGE POP */
         .gallery-item:hover {
             /* !important ensures this overrides the scattered rotation */
-            transform: rotate(0deg) scale(1.03) translateY(-10px) !important;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            transform: rotate(0deg) scale(1.05) translateY(-10px) !important;
+            /* Deep, dark shadow on lift */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.25);
             z-index: 10; /* Bring to front */
         }
         
@@ -206,7 +227,7 @@
             position: fixed;
             z-index: 2000;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(38, 70, 83, 0.95);
+            background: rgba(38, 70, 83, 0.95); /* Deep teal background */
             backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
@@ -220,6 +241,7 @@
             border: 2px solid white;
         }
 
+        /* Touch Targets */
         .nav-zone {
             position: absolute; top: 0; bottom: 0; width: 25%;
             display: flex; align-items: center; justify-content: center;
