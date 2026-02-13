@@ -15,7 +15,7 @@
             --white: #ffffff;
         }
 
-        /* Smooth floating animation for elements */
+        /* ANIMATIONS */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -27,6 +27,7 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        /* CORE STYLES */
         body { 
             margin: 0; 
             font-family: 'Quicksand', sans-serif; 
@@ -36,7 +37,7 @@
             overflow-x: hidden;
         }
 
-        /* Header with subtle movement */
+        /* HEADER */
         header {
             padding: 100px 20px;
             text-align: center;
@@ -55,7 +56,7 @@
             animation: fadeInScale 1.2s ease-out;
         }
 
-        /* Animated Navigation */
+        /* NAVIGATION */
         nav { 
             display: flex; 
             justify-content: center; 
@@ -64,10 +65,11 @@
             flex-wrap: wrap;
             position: sticky;
             top: 0;
-            background: rgba(255, 249, 243, 0.9);
+            background: rgba(255, 249, 243, 0.95);
             backdrop-filter: blur(10px);
             z-index: 100;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         }
 
         .nav-link {
@@ -76,17 +78,17 @@
             font-weight: 700;
             padding: 12px 24px;
             border-radius: 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             cursor: pointer;
             border: 2px solid transparent;
             font-size: 0.95rem;
         }
 
         .nav-link:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             color: var(--terracotta);
             background: white;
-            box-shadow: 0 10px 20px rgba(216, 133, 105, 0.1);
+            box-shadow: 0 5px 15px rgba(216, 133, 105, 0.1);
         }
 
         .nav-link.active {
@@ -95,7 +97,7 @@
             box-shadow: 0 8px 15px rgba(216, 133, 105, 0.3);
         }
 
-        /* Main Content "Living" Cards */
+        /* CONTENT SECTIONS */
         .page-content { 
             display: none; 
             padding: 60px 20px; 
@@ -108,6 +110,7 @@
             animation: fadeInScale 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
+        /* CARDS & IMAGES */
         .feature-card {
             background: var(--white);
             border-radius: 40px;
@@ -118,13 +121,16 @@
             margin-bottom: 40px;
         }
 
-        /* Hover effect that brings photos to life */
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(74, 64, 58, 0.1);
+        }
+
         .feature-img-wrapper {
             overflow: hidden;
             border-radius: 30px;
             margin-bottom: 30px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            position: relative;
         }
 
         .feature-img {
@@ -133,16 +139,9 @@
             transition: transform 0.8s ease;
         }
 
-        .feature-card:hover .feature-img {
-            transform: scale(1.05);
-        }
+        .feature-card:hover .feature-img { transform: scale(1.05); }
 
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(74, 64, 58, 0.1);
-        }
-
-        /* Floating elements for visual flair */
+        /* FLOATING ACCENTS */
         .floating-accent {
             position: absolute;
             width: 60px;
@@ -154,92 +153,59 @@
             z-index: -1;
         }
 
-        /* The Dogs Section with responsive layout */
+        /* DOG GRID */
         .dog-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             gap: 30px; 
         }
 
-    /* MASONRY GALLERY STYLES */
-.gallery-grid {
-    column-count: 3;
-    column-gap: 25px;
-}
+        /* MASONRY GALLERY */
+        .gallery-grid {
+            column-count: 3;
+            column-gap: 25px;
+        }
+        @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
+        @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
 
-@media (max-width: 900px) { .gallery-grid { column-count: 2; } }
-@media (max-width: 600px) { .gallery-grid { column-count: 1; } }
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 25px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            cursor: zoom-in;
+            background: #eee;
+        }
+        .gallery-item:hover { transform: translateY(-5px) scale(1.02); }
+        .gallery-item img { width: 100%; display: block; border-radius: 20px; }
 
-.gallery-item {
-    break-inside: avoid;
-    margin-bottom: 25px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    transition: all 0.4s ease;
-    cursor: zoom-in;
-    position: relative;
-    background: white;
-}
-
-.gallery-item:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    z-index: 2;
-}
-
-.gallery-item img {
-    width: 100%;
-    display: block;
-    border-radius: 20px;
-}
-
-.caption-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-    color: white;
-    padding: 20px 15px 10px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.gallery-item:hover .caption-overlay { opacity: 1; }
-
-/* LIGHTBOX (POPUP) STYLES */
-#lightbox {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(74, 64, 58, 0.95);
-    backdrop-filter: blur(5px);
-    align-items: center; 
-    justify-content: center;
-    animation: fadeIn 0.3s ease;
-}
-
-#lightbox img {
-    max-width: 90%;
-    max-height: 85%;
-    border-radius: 10px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
-    transform: scale(0.9);
-    animation: popIn 0.3s ease forwards;
-}
-
-#lightbox span {
-    position: absolute;
-    top: 20px; right: 30px;
-    font-size: 3rem; color: white;
-    cursor: pointer;
-    opacity: 0.8;
-}
-
-@keyframes popIn { to { transform: scale(1); } }
+        /* LIGHTBOX */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(74, 64, 58, 0.95);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 85%;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+        #lightbox span {
+            position: absolute;
+            top: 30px; right: 40px;
+            font-size: 3rem; color: white;
+            cursor: pointer;
+            opacity: 0.8;
+            z-index: 2001;
+        }
     </style>
 </head>
 <body>
@@ -302,6 +268,14 @@
             <p>The soul of the house. She’s at her happiest when we’re all together on the couch.</p>
         </div>
     </div>
+</div>
+
+<div id="home" class="page-content">
+    <div class="feature-card">
+        <h2 style="font-family: 'Lora', serif;">Our Home</h2>
+        <p>More than just walls, this is where we laugh, relax, and grow. (Upload photos of your house to the gallery folder to show them here!)</p>
+    </div>
+</div>
 
 <div id="gallery" class="page-content">
     <div style="text-align: center; margin-bottom: 40px;">
@@ -309,8 +283,8 @@
         <p>Big moments, quiet Sundays, and everything in between.</p>
     </div>
 
-    <div class="gallery-grid" id="auto-gallery">
-        <p style="text-align:center; width:100%;">Loading photos...</p>
+    <div id="magic-gallery" class="gallery-grid">
+        <p id="loading-text" style="text-align:center; width:100%; opacity:0.6;">Loading photos from gallery...</p>
     </div>
 </div>
 
@@ -320,25 +294,28 @@
 </div>
 
 <script>
-    // 1. NAVIGATION LOGIC
+    // 1. NAVIGATION
     function showPage(pageId) {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        
         document.getElementById(pageId).classList.add('active');
         
-        // Find the link that was clicked (even if it wasn't passed directly)
-        const activeLink = Array.from(document.querySelectorAll('.nav-link')).find(l => l.getAttribute('onclick').includes(pageId));
-        if (activeLink) activeLink.classList.add('active');
+        // Highlight the button that was clicked
+        const links = document.querySelectorAll('.nav-link');
+        for (let link of links) {
+            if (link.getAttribute('onclick').includes(pageId)) {
+                link.classList.add('active');
+            }
+        }
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 2. LIGHTBOX LOGIC
-    function openLightbox(imgSrc, caption) {
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        lightboxImg.src = imgSrc;
-        lightbox.style.display = 'flex';
+    // 2. LIGHTBOX
+    function openLightbox(src) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
 
@@ -347,75 +324,57 @@
         document.body.style.overflow = 'auto';
     }
 
-    // 3. AUTO-GALLERY LOGIC (The Magic Part)
-    document.addEventListener("DOMContentLoaded", function() {
-        const repoOwner = "mhoffman54"; 
-        const repoName = "lindseyandmattadopt";
-        const folderName = "gallery"; // Make sure your folder is named exactly this
-        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderName}`;
+    // 3. MAGIC GALLERY LOADER
+    async function loadGallery() {
+        // --- SETTINGS ---
+        const username = 'mhoffman54';
+        const repo = 'lindseyandmattadopt';
+        const folder = 'gallery';
+        // ----------------
 
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) throw new Error("Limit reached or folder not found");
-                return response.json();
-            })
-            .then(files => {
-                const galleryContainer = document.getElementById('auto-gallery');
-                galleryContainer.innerHTML = ''; // Clear "Loading..." text
+        const galleryContainer = document.getElementById('magic-gallery');
+        const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
 
-                // Filter for images only
-                const imageFiles = files.filter(file => file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i));
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error('Folder not found or empty');
+            
+            const data = await response.json();
+            
+            // Clear loading text
+            document.getElementById('loading-text').style.display = 'none';
 
-                imageFiles.forEach(file => {
-                    // Create the HTML for each photo
-                    const div = document.createElement('div');
-                    div.className = 'gallery-item';
-                    div.onclick = () => openLightbox(file.download_url, '');
-                    
-                    const img = document.createElement('img');
-                    img.src = file.download_url; // Use the direct GitHub link
-                    img.alt = "Gallery Photo";
-                    img.loading = "lazy"; // Speed up loading
+            // Filter for images only
+            const images = data.filter(file => file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i));
 
-                    // Optional: Clean up filename to use as caption (e.g., "lake-trip.jpg" -> "lake trip")
-                    const captionText = file.name.replace(/-/g, ' ').replace(/\.[^/.]+$/, "");
-                    const caption = document.createElement('div');
-                    caption.className = 'caption-overlay';
-                    caption.innerText = captionText;
+            if (images.length === 0) {
+                galleryContainer.innerHTML = '<p style="text-align:center; width:100%;">No photos found yet!</p>';
+                return;
+            }
 
-                    div.appendChild(img);
-                    div.appendChild(caption);
-                    galleryContainer.appendChild(div);
-                });
-            })
-    
-</div>
+            // Build the Grid
+            images.forEach(file => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+                div.onclick = function() { openLightbox(file.download_url); };
 
-<script>
-    function showPage(pageId) {
-        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        
-        document.getElementById(pageId).classList.add('active');
-        event.currentTarget.classList.add('active');
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    // Lightbox Logic
-    function openLightbox(element) {
-        const imgSrc = element.querySelector('img').src;
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        
-        lightboxImg.src = imgSrc;
-        lightbox.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Stop background scrolling
+                const img = document.createElement('img');
+                img.src = file.download_url;
+                img.loading = 'lazy';
+                img.alt = 'Gallery Photo';
+
+                div.appendChild(img);
+                galleryContainer.appendChild(div);
+            });
+
+        } catch (error) {
+            console.error('Gallery Error:', error);
+            document.getElementById('loading-text').innerText = 'To see photos, create a "gallery" folder in GitHub!';
+        }
     }
 
-    function closeLightbox() {
-        document.getElementById('lightbox').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Re-enable scrolling
-    }
+    // Run on load
+    document.addEventListener('DOMContentLoaded', loadGallery);
 </script>
 
 </body>
