@@ -161,6 +161,85 @@
             gap: 30px; 
         }
 
+    /* MASONRY GALLERY STYLES */
+.gallery-grid {
+    column-count: 3;
+    column-gap: 25px;
+}
+
+@media (max-width: 900px) { .gallery-grid { column-count: 2; } }
+@media (max-width: 600px) { .gallery-grid { column-count: 1; } }
+
+.gallery-item {
+    break-inside: avoid;
+    margin-bottom: 25px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+    cursor: zoom-in;
+    position: relative;
+    background: white;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    display: block;
+    border-radius: 20px;
+}
+
+.caption-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white;
+    padding: 20px 15px 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.gallery-item:hover .caption-overlay { opacity: 1; }
+
+/* LIGHTBOX (POPUP) STYLES */
+#lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(74, 64, 58, 0.95);
+    backdrop-filter: blur(5px);
+    align-items: center; 
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+#lightbox img {
+    max-width: 90%;
+    max-height: 85%;
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    transform: scale(0.9);
+    animation: popIn 0.3s ease forwards;
+}
+
+#lightbox span {
+    position: absolute;
+    top: 20px; right: 30px;
+    font-size: 3rem; color: white;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+@keyframes popIn { to { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -223,6 +302,51 @@
             <p>The soul of the house. She’s at her happiest when we’re all together on the couch.</p>
         </div>
     </div>
+
+    <div id="gallery" class="page-content">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-family: 'Lora', serif; font-size: 2.5rem; margin-bottom: 10px;">Our Life in Pictures</h2>
+        <p>Big moments, quiet Sundays, and everything in between.</p>
+    </div>
+
+    <div class="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="wyatt-harley-play.jpg" alt="Dogs playing">
+            <div class="caption-overlay">Wyatt and Harley in the snow</div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="richfield-house.jpg" alt="Our Home">
+            <div class="caption-overlay">Our home in Richfield</div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="truck-lake.jpg" alt="Lake Trip">
+            <div class="caption-overlay">Weekend trips to the lake</div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="wedding-photo.jpg" alt="Wedding">
+            <div class="caption-overlay">Our favorite day (June 2022)</div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="theater-room.jpg" alt="Movie Night">
+            <div class="caption-overlay">Movie night ready!</div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="vikings-game.jpg" alt="Skol Vikings">
+            <div class="caption-overlay">Cheering on the Vikes</div>
+        </div>
+
+        </div>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()">
+    <span>&times;</span>
+    <img id="lightbox-img" src="">
+</div>
 </div>
 
 <script>
@@ -234,6 +358,21 @@
         event.currentTarget.classList.add('active');
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    // Lightbox Logic
+    function openLightbox(element) {
+        const imgSrc = element.querySelector('img').src;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        
+        lightboxImg.src = imgSrc;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Stop background scrolling
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
     }
 </script>
 
