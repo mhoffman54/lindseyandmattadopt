@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lindsey & Matt | Our Hearts are Open</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&family=Lora:italic,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Lora:ital,wght@1,500&display=swap" rel="stylesheet">
     <style>
         :root {
             --warm-cream: #FFF9F3;
@@ -15,168 +15,165 @@
             --white: #ffffff;
         }
 
-        /* ANIMATIONS */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        /* CORE STYLES */
+        /* RESET & BASE */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body { 
             margin: 0; 
             font-family: 'Quicksand', sans-serif; 
             background: var(--warm-cream); 
             color: var(--deep-text);
-            line-height: 1.8;
-            overflow-x: hidden;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll on body */
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.98) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         /* HEADER */
         header {
-            padding: 100px 20px;
+            padding: 60px 20px 40px; /* Tighter padding for mobile */
             text-align: center;
             background: var(--accent-tan);
-            border-bottom-left-radius: 80px;
-            border-bottom-right-radius: 80px;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
             position: relative;
-            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.02);
         }
 
         h1 { 
             font-family: 'Lora', serif; 
             font-style: italic; 
-            font-size: clamp(2.2rem, 6vw, 3.5rem); 
-            margin-bottom: 20px;
-            animation: fadeInScale 1.2s ease-out;
+            font-size: clamp(2rem, 5vw, 3.5rem); 
+            line-height: 1.2;
+            margin-bottom: 15px;
+            animation: fadeInScale 1s ease-out;
         }
 
-        /* NAVIGATION */
+        header p {
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* MOBILE-FIRST SWIPEABLE NAVIGATION */
         nav { 
             display: flex; 
-            justify-content: center; 
-            gap: 12px; 
-            padding: 25px; 
-            flex-wrap: wrap;
+            justify-content: center; /* Centered on Desktop */
+            gap: 10px; 
+            padding: 15px 20px; 
             position: sticky;
             top: 0;
-            background: rgba(255, 249, 243, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 249, 243, 0.98);
+            backdrop-filter: blur(12px);
             z-index: 100;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            
+            /* Mobile Swipe Logic */
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+            scrollbar-width: none; /* Hide scrollbar Firefox */
         }
+        nav::-webkit-scrollbar { display: none; /* Hide scrollbar Chrome/Safari */ }
 
         .nav-link {
             text-decoration: none;
             color: var(--deep-text);
             font-weight: 700;
-            padding: 12px 24px;
-            border-radius: 30px;
+            padding: 10px 20px;
+            border-radius: 25px;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent;
-            font-size: 0.95rem;
-        }
-
-        .nav-link:hover {
-            transform: scale(1.05);
-            color: var(--terracotta);
-            background: white;
-            box-shadow: 0 5px 15px rgba(216, 133, 105, 0.1);
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+            flex-shrink: 0; /* Prevents squishing on mobile */
+            background: rgba(255,255,255,0.5);
         }
 
         .nav-link.active {
             background: var(--terracotta);
             color: white;
-            box-shadow: 0 8px 15px rgba(216, 133, 105, 0.3);
+            box-shadow: 0 4px 12px rgba(216, 133, 105, 0.4);
+        }
+
+        /* MOBILE OPTIMIZATION MEDIA QUERY */
+        @media (max-width: 768px) {
+            nav {
+                justify-content: flex-start; /* Aligns left so you can scroll */
+                padding: 15px;
+            }
+            .nav-link {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+            }
+            header {
+                padding-top: 40px;
+                border-bottom-left-radius: 40px;
+                border-bottom-right-radius: 40px;
+            }
+            .page-content {
+                padding: 30px 15px; /* Less side padding on mobile */
+            }
         }
 
         /* CONTENT SECTIONS */
         .page-content { 
             display: none; 
-            padding: 60px 20px; 
-            max-width: 1000px; 
+            padding: 50px 20px; 
+            max-width: 900px; 
             margin: 0 auto; 
+            animation: fadeInScale 0.5s ease-out;
         }
 
-        .page-content.active { 
-            display: block; 
-            animation: fadeInScale 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
+        .page-content.active { display: block; }
 
-        /* CARDS & IMAGES (UPDATED ZOOM) */
+        /* CARDS */
         .feature-card {
             background: var(--white);
-            border-radius: 40px;
-            padding: 40px;
-            box-shadow: 0 20px 50px rgba(74, 64, 58, 0.05);
-            transition: all 0.5s ease;
-            border: 1px solid rgba(255,255,255,0.5);
-            margin-bottom: 40px;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(74, 64, 58, 0.1);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(74, 64, 58, 0.04);
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.8);
         }
 
         .feature-img-wrapper {
             overflow: hidden;
-            border-radius: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
         }
 
         .feature-img {
             width: 100%;
             display: block;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother zoom bezier */
-        }
-
-        /* Increased zoom from 1.05 to 1.15 for more "pop" */
-        .feature-card:hover .feature-img { transform: scale(1.15); }
-
-        /* FLOATING ACCENTS */
-        .floating-accent {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: var(--soft-sage);
-            opacity: 0.2;
-            border-radius: 50%;
-            animation: float 4s ease-in-out infinite;
-            z-index: -1;
+            border-radius: 20px;
         }
 
         /* DOG GRID */
         .dog-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
         }
 
-        /* MASONRY GALLERY (UPDATED ZOOM) */
+        /* GALLERY GRID */
         .gallery-grid {
             column-count: 3;
-            column-gap: 25px;
+            column-gap: 15px;
         }
         @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
-        @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
+        @media (max-width: 600px) { .gallery-grid { column-count: 1; } } /* Single column on phones */
 
         .gallery-item {
             break-inside: avoid;
-            margin-bottom: 25px;
-            border-radius: 20px;
-            overflow: hidden; /* Ensures zoomed image stays inside corners */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: all 0.4s ease;
-            cursor: zoom-in;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            overflow: hidden;
             background: #eee;
             position: relative;
         }
@@ -184,94 +181,72 @@
         .gallery-item img { 
             width: 100%; 
             display: block; 
-            border-radius: 20px;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 15px;
         }
 
-        /* Apply the bigger pop to gallery items specifically */
-        .gallery-item:hover img { transform: scale(1.15); }
-        .gallery-item:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.15); z-index: 2; }
-
-
-        /* LIGHTBOX & NAVIGATION STYLES */
+        /* LIGHTBOX (MOBILE OPTIMIZED) */
         #lightbox {
             display: none;
             position: fixed;
             z-index: 2000;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(74, 64, 58, 0.98); /* Slightly darker background */
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
         }
         
-        #lightbox-content-wrapper {
-            position: relative;
-            max-width: 90%;
-            max-height: 85%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         #lightbox img {
             max-width: 100%;
-            max-height: 85vh;
-            border-radius: 10px;
-            box-shadow: 0 10px 60px rgba(0,0,0,0.5);
-            animation: fadeInScale 0.4s ease-out;
+            max-height: 70vh; /* Leave room for controls */
+            border-radius: 8px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.5);
         }
-        
-        /* Nav Buttons */
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 5rem;
-            color: rgba(255,255,255,0.6);
-            cursor: pointer;
-            padding: 20px;
-            z-index: 2010;
-            user-select: none;
-            transition: all 0.3s ease;
-        }
-        .lightbox-nav:hover { color: white; scale: 1.1; }
-        #nav-prev { left: 20px; }
-        #nav-next { right: 20px; }
 
-        /* Close Button */
+        /* Huge Touch Targets for Navigation */
+        .nav-zone {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 25%; /* Takes up edges of screen */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2010;
+            /* Make it obvious there is a button there */
+            font-size: 3rem; 
+            color: rgba(255,255,255,0.4);
+            user-select: none;
+        }
+        .nav-zone:active { background: rgba(255,255,255,0.05); color: white; }
+        
+        #zone-left { left: 0; text-align: left; }
+        #zone-right { right: 0; text-align: right; }
+
         #lightbox-close {
             position: absolute;
-            top: 20px; right: 40px;
-            font-size: 3rem; color: rgba(255,255,255,0.7);
-            cursor: pointer;
+            top: 20px; right: 20px;
+            font-size: 2.5rem; color: white;
+            padding: 10px; /* Touch padding */
             z-index: 2020;
-            transition: 0.3s;
-        }
-        #lightbox-close:hover { color: white; transform: rotate(90deg); }
-
-        /* Hide nav on small screens, rely on swiping (future proofing) or just clicking X */
-        @media (max-width: 768px) {
-            .lightbox-nav { font-size: 3rem; padding: 10px; }
-            #nav-prev { left: 5px; }
-            #nav-next { right: 5px; }
+            cursor: pointer;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="floating-accent" style="top: 10%; left: 15%;"></div>
-    <div class="floating-accent" style="bottom: 20%; right: 10%; background: var(--terracotta);"></div>
     <h1>You're not alone in this.</h1>
-    <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto; opacity: 0.8;">We can't imagine the weight of the decision you're making, but we're honored you're taking a moment to see who we are.</p>
+    <p>We can't imagine the weight of the decision you're making, but we're honored you're taking a moment to see who we are.</p>
 </header>
 
 <nav id="stickyNav">
     <a class="nav-link active" onclick="showPage('story')">Our Story</a>
     <a class="nav-link" onclick="showPage('lindsey')">Meet Lindsey</a>
     <a class="nav-link" onclick="showPage('matt')">Meet Matt</a>
-    <a class="nav-link" onclick="showPage('dogs')">The Furry Crew</a>
+    <a class="nav-link" onclick="showPage('dogs')">The Dogs</a>
     <a class="nav-link" onclick="showPage('home')">Our Home</a>
     <a class="nav-link" onclick="showPage('gallery')">Gallery</a>
 </nav>
@@ -281,9 +256,9 @@
         <div class="feature-img-wrapper">
             <img src="hawaii-us.jpg" class="feature-img" alt="Lindsey and Matt">
         </div>
-        <h2 style="font-family: 'Lora', serif; font-size: 2rem;">A Life Built on Adventure & Love</h2>
-        <p>We’ve spent years building a life in the suburbs — a place where we've put down deep roots. Whether it’s dog sledding in Ely, afternoons at the dog park or relaxing in the yard, we love creating memories.</p>
-        <p>Our home is full of laughter, adventure, and the kind of quiet, steady love that we can't wait to share with a child.</p>
+        <h2 style="font-family: 'Lora', serif; font-size: 1.8rem; margin-top: 0;">Adventure & Love</h2>
+        <p>We’ve spent years building a life in Richfield, Minnesota—a place where we've put down deep roots. Whether it’s dog sledding in Ely or relaxing in our home theater, we love creating memories.</p>
+        <p>Our home is full of laughter, DIY projects, and the kind of quiet, steady love that we can't wait to share with a child.</p>
     </div>
 </div>
 
@@ -297,7 +272,7 @@
 <div id="matt" class="page-content">
     <div class="feature-card">
         <h2 style="font-family: 'Lora', serif;">Meet Matt</h2>
-        <p>Whether I'm managing fleet vehicles at work or fixing up something in the garage, I love to build things that last. I’m ready to be a dad who teaches a kid how to use a hammer, how to cheer with their whole heart, and how to know that they are always, always loved.</p>
+        <p>Whether I'm managing fleet vehicles at work or fixing up something in the garage, I love to build things that last. I’m ready to be a dad who teaches a kid how to use a hammer, how to cheer for the Vikings, and how to know they are always, always loved.</p>
     </div>
 </div>
 
@@ -308,7 +283,7 @@
                 <img src="wyatt-birthday.jpg" class="feature-img" alt="Wyatt">
             </div>
             <h3>Wyatt</h3>
-            <p>Our patient, loyal boy who can't wait for a new best buddy.</p>
+            <p>Our patient, loyal boy who’s already a pro at exploring the Minnesota snow with us.</p>
         </div>
         <div class="feature-card">
             <div class="feature-img-wrapper">
@@ -328,51 +303,50 @@
 </div>
 
 <div id="gallery" class="page-content">
-    <div style="text-align: center; margin-bottom: 40px;">
-        <h2 style="font-family: 'Lora', serif; font-size: 2.5rem; margin-bottom: 10px;">Our Life in Pictures</h2>
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h2 style="font-family: 'Lora', serif;">Our Life in Pictures</h2>
         <p>Big moments, quiet Sundays, and everything in between.</p>
     </div>
 
     <div id="magic-gallery" class="gallery-grid">
-        <p id="loading-text" style="text-align:center; width:100%; opacity:0.6;">Loading photos from gallery...</p>
+        <p id="loading-text" style="text-align:center; width:100%; opacity:0.6;">Loading photos...</p>
     </div>
 </div>
 
 <div id="lightbox">
-    <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <div id="lightbox-close" onclick="closeLightbox()">&times;</div>
     
-    <div id="nav-prev" class="lightbox-nav" onclick="changeImage(-1)">&#8249;</div>
+    <div id="zone-left" class="nav-zone" onclick="changeImage(-1)">&#8249;</div>
+    <div id="zone-right" class="nav-zone" onclick="changeImage(1)">&#8250;</div>
     
-    <div id="lightbox-content-wrapper">
-        <img id="lightbox-img" src="">
-    </div>
-    
-    <div id="nav-next" class="lightbox-nav" onclick="changeImage(1)">&#8250;</div>
+    <img id="lightbox-img" src="">
 </div>
 
 <script>
-    // Global variables for gallery navigation
-    let galleryImages = []; // Stores all URLs found in the folder
-    let currentImageIndex = 0; // Tracks which photo we are viewing
+    // Global State
+    let galleryImages = []; 
+    let currentImageIndex = 0; 
 
-    // 1. NAVIGATION
+    // 1. NAV LOGIC
     function showPage(pageId) {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         
         document.getElementById(pageId).classList.add('active');
         
+        // Highlight active button
         const links = document.querySelectorAll('.nav-link');
         for (let link of links) {
             if (link.getAttribute('onclick').includes(pageId)) {
                 link.classList.add('active');
+                // Auto-scroll the nav ribbon to show the active button on mobile
+                link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 2. UPDATED LIGHTBOX LOGIC
-    // Open lightbox at a specific index
+    // 2. LIGHTBOX LOGIC
     function openLightboxByIndex(index) {
         currentImageIndex = index;
         updateLightboxImage();
@@ -380,24 +354,15 @@
         document.body.style.overflow = 'hidden';
     }
 
-    // Handle Next/Prev clicks
     function changeImage(direction) {
         currentImageIndex += direction;
-        // Loop back to start if at end
-        if (currentImageIndex >= galleryImages.length) {
-            currentImageIndex = 0;
-        }
-        // Loop to end if at start
-        if (currentImageIndex < 0) {
-            currentImageIndex = galleryImages.length - 1;
-        }
+        if (currentImageIndex >= galleryImages.length) currentImageIndex = 0;
+        if (currentImageIndex < 0) currentImageIndex = galleryImages.length - 1;
         updateLightboxImage();
     }
 
-    // Update the image source based on current index
     function updateLightboxImage() {
         const img = document.getElementById('lightbox-img');
-        // Subtle fade effect when changing
         img.style.opacity = '0.5';
         setTimeout(() => {
              img.src = galleryImages[currentImageIndex];
@@ -410,45 +375,37 @@
         document.body.style.overflow = 'auto';
     }
 
-    // Close lightbox when clicking outside the image
-    document.getElementById('lightbox').addEventListener('click', function(e) {
-        if (e.target === this || e.target.id === 'lightbox-content-wrapper') {
-            closeLightbox();
-        }
-    });
-
-
-    // 3. MAGIC GALLERY LOADER (With Navigation Setup)
+    // 3. MAGIC GALLERY LOADER
     async function loadGallery() {
+        // --- EDIT YOUR INFO HERE ---
         const username = 'mhoffman54';
         const repo = 'lindseyandmattadopt';
         const folder = 'gallery';
+        // ---------------------------
 
         const galleryContainer = document.getElementById('magic-gallery');
         const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
 
         try {
             const response = await fetch(apiUrl);
-            if (!response.ok) throw new Error('Folder not found or empty');
+            if (!response.ok) throw new Error('Folder not found');
             const data = await response.json();
+            
             document.getElementById('loading-text').style.display = 'none';
 
-            // Filter for images only
+            // Filter for images
             const imageFiles = data.filter(file => file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i));
 
             if (imageFiles.length === 0) {
-                galleryContainer.innerHTML = '<p style="text-align:center; width:100%;">No photos found yet!</p>';
+                galleryContainer.innerHTML = '<p style="text-align:center;">No photos found yet!</p>';
                 return;
             }
 
-            // SAVE THE URLS FOR NAVIGATION
             galleryImages = imageFiles.map(file => file.download_url);
 
-            // Build the Grid using Index
             imageFiles.forEach((file, index) => {
                 const div = document.createElement('div');
                 div.className = 'gallery-item';
-                // Pass the INDEX, not the URL
                 div.onclick = function() { openLightboxByIndex(index); };
 
                 const img = document.createElement('img');
@@ -462,7 +419,7 @@
 
         } catch (error) {
             console.error('Gallery Error:', error);
-            document.getElementById('loading-text').innerText = 'To see photos, create a "gallery" folder in GitHub!';
+            document.getElementById('loading-text').innerText = 'Upload photos to the "gallery" folder to see them here!';
         }
     }
 
