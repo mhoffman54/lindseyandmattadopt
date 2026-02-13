@@ -3,151 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lindsey & Matt | Our Journey</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Lindsey & Matt | A Place for You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&family=Lora:italic,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f8f9fa;
-            --accent: #5b7a8c; /* Soft, modern blue */
-            --glass: rgba(255, 255, 255, 0.7);
-            --text: #2d3436;
+            --warm-cream: #FFF9F3;
+            --soft-sage: #94A684;
+            --terracotta: #D88569;
+            --deep-text: #4A403A;
+            --accent-tan: #EAE3D2;
         }
 
-        * { box-sizing: border-box; }
         body { 
             margin: 0; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            overflow-x: hidden;
+            font-family: 'Quicksand', sans-serif; 
+            background: var(--warm-cream); 
+            color: var(--deep-text);
+            line-height: 1.7;
         }
 
-        /* Hero Section */
+        /* Compassionate Header */
         header {
-            height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 60px 20px;
             text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('hero.jpg') center/cover no-repeat;
-            color: white;
-            padding: 20px;
+            background: var(--accent-tan);
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
         }
 
-        .hero-content h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin: 0; font-weight: 700; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
-        .hero-content p { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; }
+        h1 { font-family: 'Lora', serif; font-style: italic; font-size: 2.8rem; margin-bottom: 10px; }
+
+        /* Navigation */
+        nav { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            padding: 20px; 
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: var(--warm-cream);
+            z-index: 100;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--deep-text);
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: white;
+            border-color: var(--terracotta);
+            color: var(--terracotta);
+        }
 
         /* Content Sections */
-        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
+        .page-content { display: none; padding: 40px 20px; max-width: 1000px; margin: 0 auto; animation: fadeIn 0.5s ease; }
+        .page-content.active { display: block; }
 
-        .intro-text {
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Warm Image Styling */
+        .feature-img {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: 0 15px 30px rgba(74, 64, 58, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* The Dogs Section Specifics */
+        .dog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        .contact-card {
+            background: white;
+            padding: 40px;
+            border-radius: 40px;
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto 100px;
-            font-size: 1.2rem;
-            line-height: 1.8;
+            border: 2px dashed var(--soft-sage);
         }
 
-        /* The "High-Effort" Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border-radius: 24px;
-            padding: 15px;
-            border: 1px solid rgba(255,255,255,0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .card.visible { opacity: 1; transform: translateY(0); }
-        .card:hover { transform: scale(1.02); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
-
-        .card img { width: 100%; border-radius: 18px; display: block; }
-        .card-info { padding: 20px 10px; }
-        .card-info h3 { margin: 0 0 10px 0; font-size: 1.3rem; color: var(--accent); }
-        .card-info p { margin: 0; font-size: 0.95rem; color: #636e72; }
-
-        /* Footer */
-        footer { padding: 100px 20px; text-align: center; background: white; border-top: 1px solid #eee; }
-        .contact-btn {
-            background: var(--accent);
-            color: white;
-            padding: 18px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            display: inline-block;
-            transition: 0.3s;
-        }
-        .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(91, 122, 140, 0.3); }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="hero-content">
-        <h1>Hi, We're Lindsey & Matt</h1>
-        <p>A life built on love, laughter, and a whole lot of projects.</p>
-    </div>
+    <h1>Thinking of you...</h1>
+    <p>We don't know your story yet, but we know you're making a brave choice. We're just glad you're here.</p>
 </header>
 
-<div class="container">
-    <div class="intro-text">
-        <p>We’re so glad you’re here. We’ve spent years building a home in Richfield filled with dogs, DIY projects, and Vikings football—but there's one piece of the puzzle still missing.</p>
-    </div>
+<nav>
+    <a class="nav-link active" onclick="showPage('story')">Our Story</a>
+    <a class="nav-link" onclick="showPage('lindsey')">Lindsey</a>
+    <a class="nav-link" onclick="showPage('matt')">Matt</a>
+    <a class="nav-link" onclick="showPage('dogs')">The Dogs</a>
+    <a class="nav-link" onclick="showPage('home')">Our Home</a>
+    <a class="nav-link" onclick="showPage('gallery')">Gallery</a>
+</nav>
 
-    <div class="grid">
-        <div class="card">
-            <img src="handw.jpg" alt="Wyatt and Harley">
-            <div class="card-info">
-                <h3>The Welcome Committee</h3>
-                <p>Wyatt and Harley are the heartbeat of our home. They've been our companions on every trip to Ely and every Sunday game day.</p>
-            </div>
+<div id="story" class="page-content active">
+    <img src="hawaii-us.jpg" class="feature-img" alt="Lindsey and Matt">
+    <h2>A little about us...</h2>
+    <p>We’re Lindsey and Matt. We live in a quiet neighborhood in Richfield, Minnesota, where the streets are lined with trees and the neighbors actually know each other's names.</p>
+    <p>Our life isn't perfect, but it's full. It's full of laughter during Sunday Vikings games, the smell of fresh coffee on Saturday mornings, and the constant pitter-patter of paws on the floor.</p>
+</div>
+
+<div id="lindsey" class="page-content">
+    <h2>Meet Lindsey</h2>
+    <p>I'm the one who remembers every birthday and makes sure we always have the good snacks. I've always wanted to be a mom—to read the bedtime stories, to dry the tears, and to cheer the loudest at every graduation.</p>
+</div>
+
+<div id="matt" class="page-content">
+    <h2>Meet Matt</h2>
+    <p>I'm the guy who’s usually in the garage or the theater room working on a project. I'm ready to teach a kid how to build things, how to be kind, and how to never give up—even when the Vikings are losing.</p>
+</div>
+
+<div id="dogs" class="page-content">
+    <h2>The Furry Big Brothers</h2>
+    <div class="dog-grid">
+        <div>
+            <img src="wyatt-birthday.jpg" class="feature-img" alt="Wyatt">
+            <h3>Wyatt</h3>
+            <p>The adventurer. He's patient, loyal, and ready for a tiny human best friend.</p>
         </div>
-
-        <div class="card">
-            <img src="home.jpg" alt="Our Home">
-            <div class="card-info">
-                <h3>Built to Share</h3>
-                <p>From our home theater room to the backyard, our house is ready for Disney movies and real adventures.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="Us.jpg" alt="Family">
-            <div class="card-info">
-                <h3>A Big Support System</h3>
-                <p>We're lucky to be surrounded by family who can't wait to welcome a new member to the crew.</p>
-            </div>
+        <div>
+            <img src="harley-nap.jpg" class="feature-img" alt="Harley">
+            <h3>Harley</h3>
+            <p>The soul of the house. She just wants to be wherever we are.</p>
         </div>
     </div>
 </div>
 
-<footer>
-    <h2>We’d love to hear from you.</h2>
-    <p>If you'd like to learn more about our journey, reach out anytime.</p>
-    <br>
-    <a href="mailto:lindseyandmattmn@gmail.com" class="contact-btn">Get in Touch</a>
-</footer>
+<div id="home" class="page-content">
+    <h2>A Place to Grow</h2>
+    <p>Our home in Richfield is more than just four walls. It’s a theater room ready for movie marathons, a backyard ready for tag, and a nursery that we can’t wait to fill with light.</p>
+</div>
+
+<div id="gallery" class="page-content">
+    <h2>Our Life in Pictures</h2>
+    <p>(Gallery coming soon - Upload your photos to GitHub to see them here!)</p>
+</div>
 
 <script>
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.card').forEach(card => observer.observe(card));
+    function showPage(pageId) {
+        // Hide all pages
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        // Deactivate all links
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        
+        // Show current page
+        document.getElementById(pageId).classList.add('active');
+        // Activate current link
+        event.currentTarget.classList.add('active');
+        
+        // Scroll to top of content
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 </script>
 
 </body>
