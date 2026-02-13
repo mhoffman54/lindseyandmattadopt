@@ -110,7 +110,7 @@
             animation: fadeInScale 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* CARDS & IMAGES */
+        /* CARDS & IMAGES (UPDATED ZOOM) */
         .feature-card {
             background: var(--white);
             border-radius: 40px;
@@ -136,10 +136,11 @@
         .feature-img {
             width: 100%;
             display: block;
-            transition: transform 0.8s ease;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother zoom bezier */
         }
 
-        .feature-card:hover .feature-img { transform: scale(1.05); }
+        /* Increased zoom from 1.05 to 1.15 for more "pop" */
+        .feature-card:hover .feature-img { transform: scale(1.15); }
 
         /* FLOATING ACCENTS */
         .floating-accent {
@@ -160,7 +161,7 @@
             gap: 30px; 
         }
 
-        /* MASONRY GALLERY */
+        /* MASONRY GALLERY (UPDATED ZOOM) */
         .gallery-grid {
             column-count: 3;
             column-gap: 25px;
@@ -172,210 +173,85 @@
             break-inside: avoid;
             margin-bottom: 25px;
             border-radius: 20px;
-            overflow: hidden;
+            overflow: hidden; /* Ensures zoomed image stays inside corners */
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
             transition: all 0.4s ease;
             cursor: zoom-in;
             background: #eee;
+            position: relative;
         }
-        .gallery-item:hover { transform: translateY(-5px) scale(1.02); }
-        .gallery-item img { width: 100%; display: block; border-radius: 20px; }
+        
+        .gallery-item img { 
+            width: 100%; 
+            display: block; 
+            border-radius: 20px;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
 
-        /* LIGHTBOX */
+        /* Apply the bigger pop to gallery items specifically */
+        .gallery-item:hover img { transform: scale(1.15); }
+        .gallery-item:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.15); z-index: 2; }
+
+
+        /* LIGHTBOX & NAVIGATION STYLES */
         #lightbox {
             display: none;
             position: fixed;
             z-index: 2000;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(74, 64, 58, 0.95);
-            backdrop-filter: blur(5px);
+            background: rgba(74, 64, 58, 0.98); /* Slightly darker background */
+            backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
         }
-        #lightbox img {
+        
+        #lightbox-content-wrapper {
+            position: relative;
             max-width: 90%;
             max-height: 85%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #lightbox img {
+            max-width: 100%;
+            max-height: 85vh;
             border-radius: 10px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 60px rgba(0,0,0,0.5);
+            animation: fadeInScale 0.4s ease-out;
         }
-        #lightbox span {
+        
+        /* Nav Buttons */
+        .lightbox-nav {
             position: absolute;
-            top: 30px; right: 40px;
-            font-size: 3rem; color: white;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            color: rgba(255,255,255,0.6);
             cursor: pointer;
-            opacity: 0.8;
-            z-index: 2001;
+            padding: 20px;
+            z-index: 2010;
+            user-select: none;
+            transition: all 0.3s ease;
         }
-    </style>
-</head>
-<body>
+        .lightbox-nav:hover { color: white; scale: 1.1; }
+        #nav-prev { left: 20px; }
+        #nav-next { right: 20px; }
 
-<header>
-    <div class="floating-accent" style="top: 10%; left: 15%;"></div>
-    <div class="floating-accent" style="bottom: 20%; right: 10%; background: var(--terracotta);"></div>
-    <h1>You're not alone in this.</h1>
-    <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto; opacity: 0.8;">We can't imagine the weight of the decision you're making, but we're honored you're taking a moment to see who we are.</p>
-</header>
-
-<nav id="stickyNav">
-    <a class="nav-link active" onclick="showPage('story')">Our Story</a>
-    <a class="nav-link" onclick="showPage('lindsey')">Meet Lindsey</a>
-    <a class="nav-link" onclick="showPage('matt')">Meet Matt</a>
-    <a class="nav-link" onclick="showPage('dogs')">The Furry Crew</a>
-    <a class="nav-link" onclick="showPage('home')">Our Home</a>
-    <a class="nav-link" onclick="showPage('gallery')">Gallery</a>
-</nav>
-
-<div id="story" class="page-content active">
-    <div class="feature-card">
-        <div class="feature-img-wrapper">
-            <img src="hawaii-us.jpg" class="feature-img" alt="Lindsey and Matt">
-        </div>
-        <h2 style="font-family: 'Lora', serif; font-size: 2rem;">A Life Built on Adventure & Love</h2>
-        <p>We’ve spent years building a life in Richfield, Minnesota—a place where we've put down deep roots. Whether it’s dog sledding in Ely or relaxing in our home theater, we love creating memories.</p>
-        <p>Our home is full of laughter, DIY projects, and the kind of quiet, steady love that we can't wait to share with a child.</p>
-    </div>
-</div>
-
-<div id="lindsey" class="page-content">
-    <div class="feature-card">
-        <h2 style="font-family: 'Lora', serif;">Meet Lindsey</h2>
-        <p>I’m the one who handles the snacks, the birthdays, and the bedtime stories. I've always dreamed of being a mom—of being the safe place a child comes to when they're scared and the loudest voice cheering them on when they win.</p>
-    </div>
-</div>
-
-<div id="matt" class="page-content">
-    <div class="feature-card">
-        <h2 style="font-family: 'Lora', serif;">Meet Matt</h2>
-        <p>Whether I'm managing fleet vehicles at work or fixing up something in the garage, I love to build things that last. I’m ready to be a dad who teaches a kid how to use a hammer, how to cheer for the Vikings, and how to know they are always, always loved.</p>
-    </div>
-</div>
-
-<div id="dogs" class="page-content">
-    <div class="dog-grid">
-        <div class="feature-card">
-            <div class="feature-img-wrapper">
-                <img src="wyatt-birthday.jpg" class="feature-img" alt="Wyatt">
-            </div>
-            <h3>Wyatt</h3>
-            <p>Our patient, loyal boy who’s already a pro at exploring the Minnesota snow with us.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-img-wrapper">
-                <img src="harley-nap.jpg" class="feature-img" alt="Harley">
-            </div>
-            <h3>Harley</h3>
-            <p>The soul of the house. She’s at her happiest when we’re all together on the couch.</p>
-        </div>
-    </div>
-</div>
-
-<div id="home" class="page-content">
-    <div class="feature-card">
-        <h2 style="font-family: 'Lora', serif;">Our Home</h2>
-        <p>More than just walls, this is where we laugh, relax, and grow. (Upload photos of your house to the gallery folder to show them here!)</p>
-    </div>
-</div>
-
-<div id="gallery" class="page-content">
-    <div style="text-align: center; margin-bottom: 40px;">
-        <h2 style="font-family: 'Lora', serif; font-size: 2.5rem; margin-bottom: 10px;">Our Life in Pictures</h2>
-        <p>Big moments, quiet Sundays, and everything in between.</p>
-    </div>
-
-    <div id="magic-gallery" class="gallery-grid">
-        <p id="loading-text" style="text-align:center; width:100%; opacity:0.6;">Loading photos from gallery...</p>
-    </div>
-</div>
-
-<div id="lightbox" onclick="closeLightbox()">
-    <span>&times;</span>
-    <img id="lightbox-img" src="">
-</div>
-
-<script>
-    // 1. NAVIGATION
-    function showPage(pageId) {
-        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        
-        document.getElementById(pageId).classList.add('active');
-        
-        // Highlight the button that was clicked
-        const links = document.querySelectorAll('.nav-link');
-        for (let link of links) {
-            if (link.getAttribute('onclick').includes(pageId)) {
-                link.classList.add('active');
-            }
+        /* Close Button */
+        #lightbox-close {
+            position: absolute;
+            top: 20px; right: 40px;
+            font-size: 3rem; color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            z-index: 2020;
+            transition: 0.3s;
         }
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+        #lightbox-close:hover { color: white; transform: rotate(90deg); }
 
-    // 2. LIGHTBOX
-    function openLightbox(src) {
-        document.getElementById('lightbox-img').src = src;
-        document.getElementById('lightbox').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-        document.getElementById('lightbox').style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-
-    // 3. MAGIC GALLERY LOADER
-    async function loadGallery() {
-        // --- SETTINGS ---
-        const username = 'mhoffman54';
-        const repo = 'lindseyandmattadopt';
-        const folder = 'gallery';
-        // ----------------
-
-        const galleryContainer = document.getElementById('magic-gallery');
-        const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
-
-        try {
-            const response = await fetch(apiUrl);
-            if (!response.ok) throw new Error('Folder not found or empty');
-            
-            const data = await response.json();
-            
-            // Clear loading text
-            document.getElementById('loading-text').style.display = 'none';
-
-            // Filter for images only
-            const images = data.filter(file => file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i));
-
-            if (images.length === 0) {
-                galleryContainer.innerHTML = '<p style="text-align:center; width:100%;">No photos found yet!</p>';
-                return;
-            }
-
-            // Build the Grid
-            images.forEach(file => {
-                const div = document.createElement('div');
-                div.className = 'gallery-item';
-                div.onclick = function() { openLightbox(file.download_url); };
-
-                const img = document.createElement('img');
-                img.src = file.download_url;
-                img.loading = 'lazy';
-                img.alt = 'Gallery Photo';
-
-                div.appendChild(img);
-                galleryContainer.appendChild(div);
-            });
-
-        } catch (error) {
-            console.error('Gallery Error:', error);
-            document.getElementById('loading-text').innerText = 'To see photos, create a "gallery" folder in GitHub!';
-        }
-    }
-
-    // Run on load
-    document.addEventListener('DOMContentLoaded', loadGallery);
-</script>
-
-</body>
-</html>
+        /* Hide nav on small screens, rely on swiping (future proofing) or just clicking X */
+        @media (max-width: 768px) {
+            .lightbox-nav { font-size: 3rem; padding: 10px; }
+            #nav-prev { left: 5px; }
+            #nav-
