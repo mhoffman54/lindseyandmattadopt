@@ -8,23 +8,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Lora:ital,wght@1,500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* NEW: More Vibrant, Organic Palette */
             --bg-gradient: linear-gradient(135deg, #FFF5E4 0%, #FFE3D8 100%); /* Soft Sunrise */
             --card-white: rgba(255, 255, 255, 0.92);
-            --terracotta: #E76F51; /* More vibrant orange-red */
-            --sage-green: #2A9D8F; /* Richer teal-green */
-            --deep-text: #264653; /* Softer than black, deep blue-grey */
+            --terracotta: #E76F51;
+            --sage-green: #2A9D8F;
+            --deep-text: #264653;
             --accent-gold: #E9C46A;
         }
 
-        /* RESET & BASE */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             margin: 0; 
             font-family: 'Quicksand', sans-serif; 
             background: var(--bg-gradient); 
-            background-attachment: fixed; /* Keeps gradient stable while scrolling */
+            background-attachment: fixed;
             color: var(--deep-text);
             line-height: 1.6;
             min-height: 100vh;
@@ -36,16 +34,15 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* HEADER - Now with organic curves */
+        /* HEADER */
         header {
             padding: 70px 20px 60px;
             text-align: center;
             background: white;
-            /* The "Wavy" bottom effect using border-radius */
             border-bottom-left-radius: 50% 20px;
             border-bottom-right-radius: 50% 20px;
             position: relative;
-            box-shadow: 0 10px 40px rgba(231, 111, 81, 0.1); /* Warm glow shadow */
+            box-shadow: 0 10px 40px rgba(231, 111, 81, 0.1);
         }
 
         h1 { 
@@ -54,7 +51,7 @@
             font-size: clamp(2.2rem, 5vw, 3.8rem); 
             line-height: 1.2;
             margin-bottom: 15px;
-            color: var(--terracotta); /* Pop of color in title */
+            color: var(--terracotta);
             animation: fadeInScale 1s ease-out;
         }
 
@@ -65,7 +62,7 @@
             color: #555;
         }
 
-        /* NAVIGATION - Colorful & Friendly */
+        /* NAVIGATION */
         nav { 
             display: flex; 
             justify-content: center;
@@ -92,10 +89,10 @@
             border-radius: 30px;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent; /* Slightly chunkier border */
+            border: 2px solid transparent;
             font-size: 0.9rem;
             flex-shrink: 0;
-            background: rgba(233, 196, 106, 0.15); /* Subtle gold tint */
+            background: rgba(233, 196, 106, 0.15);
         }
 
         .nav-link.active {
@@ -105,14 +102,13 @@
             box-shadow: 0 4px 12px rgba(231, 111, 81, 0.4);
         }
 
-        /* MOBILE OPTIMIZATION */
         @media (max-width: 768px) {
             nav { justify-content: flex-start; padding: 15px; }
             header { padding-top: 50px; }
             .nav-link { padding: 8px 18px; }
         }
 
-        /* CARDS - Glassy & Warm */
+        /* CARDS */
         .page-content { 
             display: none; 
             padding: 40px 20px; 
@@ -127,52 +123,79 @@
             background: var(--card-white);
             border-radius: 30px;
             padding: 30px;
-            box-shadow: 0 15px 35px rgba(231, 111, 81, 0.08); /* Warm shadow */
+            box-shadow: 0 15px 35px rgba(231, 111, 81, 0.08);
             margin-bottom: 30px;
-            border: 2px solid white; /* crisp edge */
+            border: 2px solid white;
         }
 
         h2 { color: var(--sage-green); margin-top: 0; }
         h3 { color: var(--terracotta); }
 
+        /* --- UPDATED FEATURE IMAGE STYLES --- */
         .feature-img-wrapper {
             overflow: hidden;
             border-radius: 20px;
             margin-bottom: 25px;
+            /* Base shadow */
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transform: rotate(-1deg); /* Tilted slightly for "scrapbook" feel */
-            transition: transform 0.3s ease;
+            /* Base tilt */
+            transform: rotate(-1.5deg); 
+            /* Smooth transition for transform AND shadow */
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        /* Straighten on hover */
-        .feature-card:hover .feature-img-wrapper { transform: rotate(0deg) scale(1.02); }
+        /* Hover effect: straighten, lift up, big shadow */
+        .feature-card:hover .feature-img-wrapper { 
+            transform: rotate(0deg) scale(1.03) translateY(-5px); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
 
         .feature-img { width: 100%; display: block; }
 
-        /* DOG GRID */
         .dog-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 25px; 
         }
 
-        /* GALLERY GRID */
+        /* --- UPDATED GALLERY GRID STYLES --- */
         .gallery-grid {
             column-count: 3;
-            column-gap: 15px;
+            column-gap: 20px;
         }
         @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
         @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
 
         .gallery-item {
             break-inside: avoid;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             border-radius: 15px;
             overflow: hidden;
             background: #eee;
             position: relative;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            border: 4px solid white; /* Photo border effect */
+            border: 4px solid white;
+            cursor: pointer;
+            /* Base shadow and smooth transition */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Default slight tilt */
+            transform: rotate(-1deg);
+        }
+
+        /* SCATTERED EFFECT - Varying angles for different items */
+        /* Every 2nd item tilts right */
+        .gallery-item:nth-child(2n) { transform: rotate(1.5deg) translateY(5px); }
+        /* Every 3rd item tilts left sharper */
+        .gallery-item:nth-child(3n) { transform: rotate(-2deg) translateX(-5px); }
+        /* Every 5th item is mostly straight but offset */
+        .gallery-item:nth-child(5n) { transform: rotate(0.5deg) translateY(-5px); }
+
+        /* HOVER EFFECT - Straighten and BIG pop for ALL items */
+        .gallery-item:hover {
+            /* !important ensures this overrides the scattered rotation */
+            transform: rotate(0deg) scale(1.03) translateY(-10px) !important;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            z-index: 10; /* Bring to front */
         }
         
         .gallery-item img { width: 100%; display: block; }
@@ -183,7 +206,7 @@
             position: fixed;
             z-index: 2000;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(38, 70, 83, 0.95); /* Deep teal background */
+            background: rgba(38, 70, 83, 0.95);
             backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
@@ -197,7 +220,6 @@
             border: 2px solid white;
         }
 
-        /* Touch Targets */
         .nav-zone {
             position: absolute; top: 0; bottom: 0; width: 25%;
             display: flex; align-items: center; justify-content: center;
@@ -238,22 +260,22 @@
             <img src="hawaii-us.jpg" class="feature-img" alt="Lindsey and Matt">
         </div>
         <h2 style="font-family: 'Lora', serif; font-size: 1.8rem;">Adventure & Love</h2>
-        <p>We’ve spent years building a life in the <strong>Minneapolis suburbs</strong>—a place where we've put down deep roots. Whether it’s dog sledding in Ely or relaxing in our home theater, we love creating memories.</p>
-        <p>Our home is full of laughter, DIY projects, and the kind of quiet, steady love that we can't wait to share with a child.</p>
+        <p>We’ve spent years building a life in the Minneapolis suburbs — a place where we've put down deep roots. Whether it’s dog sledding in Ely, an afternoon at the dog park or spending time with our nieces and nephews, we love creating memories with those we love.</p>
+        <p>Our home is full of laughter, adventure, and the kind of quiet, steady love that we can't wait to share with a child.</p>
     </div>
 </div>
 
 <div id="lindsey" class="page-content">
     <div class="feature-card">
         <h2 style="font-family: 'Lora', serif;">Meet Lindsey</h2>
-        <p>I’m the one who handles the snacks, the birthdays, and the bedtime stories. I've always dreamed of being a mom—of being the safe place a child comes to when they're scared and the loudest voice cheering them on when they win.</p>
+        <p>I’m the one who handles the snacks, the birthdays, and the bedtime stories. I've always dreamed of being a mom—of being the safe place a child comes to when they're scared and the loudest voice cheering them on no matter what they're doing.</p>
     </div>
 </div>
 
 <div id="matt" class="page-content">
     <div class="feature-card">
         <h2 style="font-family: 'Lora', serif;">Meet Matt</h2>
-        <p>Whether I'm managing fleet vehicles at work or fixing up something in the garage, I love to build things that last. I’m ready to be a dad who teaches a kid how to use a hammer, how to cheer for the Vikings, and how to know they are always, always loved.</p>
+        <p>Whether I'm managing fleet vehicles at work or fixing up something in the garage, I love to build things that last. I’m ready to be a dad who teaches a kid how to use a hammer, how to cheer with their whole heart, and how to know they are always, always loved.</p>
     </div>
 </div>
 
@@ -264,14 +286,14 @@
                 <img src="wyatt-birthday.jpg" class="feature-img" alt="Wyatt">
             </div>
             <h3>Wyatt</h3>
-            <p>Our patient, loyal boy who’s already a pro at exploring the Minnesota snow with us.</p>
+            <p>Our patient, loyal boy who has a huge heart and can't wait to meet his new best buddy.</p>
         </div>
         <div class="feature-card">
             <div class="feature-img-wrapper">
                 <img src="harley-nap.jpg" class="feature-img" alt="Harley">
             </div>
             <h3>Harley</h3>
-            <p>The soul of the house. She’s at her happiest when we’re all together on the couch.</p>
+            <p>The soul of the house. She’s at her happiest when she's either got a lap to snuggle up on, or a ball in her mouth and a friend to throw it for her.</p>
         </div>
     </div>
 </div>
@@ -279,7 +301,7 @@
 <div id="home" class="page-content">
     <div class="feature-card">
         <h2 style="font-family: 'Lora', serif;">Our Home</h2>
-        <p>Our home in the <strong>Minneapolis area</strong> is more than just walls. It's where we laugh, relax, and grow. (Upload photos of your house to the gallery folder to show them here!)</p>
+        <p>Our home in the Minneapolis area is more than just walls. It's where we laugh, relax, and grow.</p>
     </div>
 </div>
 
