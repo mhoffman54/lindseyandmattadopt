@@ -234,22 +234,40 @@
         }
 
         /* --- ANIMATED SWIPE HINT --- */
-        @keyframes swipeHintAnim {
-            0% { opacity: 0; transform: translateX(0); }
-            20% { opacity: 1; transform: translateX(0); }
-            50% { transform: translateX(-50px); }
-            80% { opacity: 1; transform: translateX(0); }
-            100% { opacity: 0; transform: translateX(0); }
+        @keyframes swipeAnimation {
+            0% { transform: translateX(0) rotate(10deg); opacity: 0; }
+            10% { transform: translateX(0) rotate(10deg); opacity: 1; }
+            50% { transform: translateX(-40px) rotate(0deg); opacity: 1; }
+            80% { transform: translateX(0) rotate(10deg); opacity: 1; }
+            100% { transform: translateX(0) rotate(10deg); opacity: 0; }
         }
 
         #swipe-hint {
             position: absolute;
             top: 50%; left: 50%;
-            margin-top: -40px; margin-left: -40px;
-            width: 80px; height: 80px;
+            transform: translate(-50%, -50%);
             z-index: 2050;
             pointer-events: none;
             display: none;
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        #swipe-hint svg {
+            width: 60px;
+            height: 60px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+            animation: swipeAnimation 2s ease-in-out infinite;
+        }
+        
+        #swipe-hint p {
+            margin: 5px 0 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            animation: fadeInScale 2s infinite;
         }
     </style>
 </head>
@@ -340,9 +358,10 @@
     <img id="lightbox-img" src="">
     
     <div id="swipe-hint">
-        <svg viewBox="0 0 24 24" fill="white" style="width: 100%; height: 100%; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));">
+        <svg viewBox="0 0 24 24" fill="white">
             <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/>
         </svg>
+        <p>SWIPE</p>
     </div>
 </div>
 
@@ -381,7 +400,7 @@
         if (!hintShown) {
             const hint = document.getElementById('swipe-hint');
             hint.style.display = 'block';
-            setTimeout(() => { hint.style.display = 'none'; }, 2600);
+            setTimeout(() => { hint.style.display = 'none'; }, 2800);
             hintShown = true;
         }
     }
