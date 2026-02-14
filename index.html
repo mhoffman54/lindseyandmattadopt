@@ -135,26 +135,27 @@
         h2 { color: var(--sage-green); margin-top: 0; }
         h3 { color: var(--terracotta); }
 
-        /* --- UPDATED FEATURE IMAGE STYLES (3D EFFECT) --- */
+        /* --- UPDATED FEATURE IMAGE STYLES (3D EFFECT + SCROLL POP) --- */
         .feature-img-wrapper {
             overflow: hidden;
             border-radius: 10px; /* Slightly sharper corners for photo look */
             margin-bottom: 25px;
-            
+
             /* White Photo Border */
             border: 6px solid #fff;
-            
+
             /* DARKER, DEEPER SHADOW for 3D effect */
             box-shadow: 5px 15px 35px rgba(50, 50, 93, 0.25), 0 5px 15px rgba(0, 0, 0, 0.15);
-            
+
             /* Base tilt */
             transform: rotate(-1.5deg); 
             /* Smooth transition for transform AND shadow */
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        
-        /* Hover effect: straighten, lift up, EVEN DARKER shadow */
-        .feature-card:hover .feature-img-wrapper { 
+
+        /* Hover effect OR Mobile Scroll Pop */
+        .feature-card:hover .feature-img-wrapper,
+        .feature-img-wrapper.mobile-pop { 
             transform: rotate(0deg) scale(1.03) translateY(-8px); 
             box-shadow: 0 30px 60px rgba(50, 50, 93, 0.4), 0 10px 25px rgba(0, 0, 0, 0.2);
             z-index: 5;
@@ -177,7 +178,7 @@
         @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
         @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
 
-        /* --- UPDATED GALLERY ITEM STYLES (3D EFFECT) --- */
+        /* --- UPDATED GALLERY ITEM STYLES (3D EFFECT + SCROLL POP) --- */
         .gallery-item {
             break-inside: avoid;
             margin-bottom: 25px;
@@ -185,40 +186,37 @@
             overflow: hidden;
             background: #eee;
             position: relative;
-            
+
             /* WHITE PHOTO BORDER */
             border: 6px solid white; 
-            
+
             cursor: pointer;
-            
+
             /* DARKER 3D SHADOW */
             box-shadow: 5px 10px 20px rgba(0,0,0,0.25), 0 3px 6px rgba(0,0,0,0.1);
-            
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            
+
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+
             /* Default slight tilt */
             transform: rotate(-1deg);
         }
 
         /* SCATTERED EFFECT - Varying angles for different items */
-        /* Every 2nd item tilts right */
         .gallery-item:nth-child(2n) { transform: rotate(1.5deg) translateY(5px); }
-        /* Every 3rd item tilts left sharper */
         .gallery-item:nth-child(3n) { transform: rotate(-2deg) translateX(-5px); }
-        /* Every 5th item is mostly straight but offset */
         .gallery-item:nth-child(5n) { transform: rotate(0.5deg) translateY(-5px); }
-        /* Every 7th item tilts right harder */
         .gallery-item:nth-child(7n) { transform: rotate(2.5deg); }
 
-        /* HOVER EFFECT - Straighten and HUGE POP */
-        .gallery-item:hover {
+        /* HOVER EFFECT OR MOBILE POP */
+        .gallery-item:hover,
+        .gallery-item.mobile-pop {
             /* !important ensures this overrides the scattered rotation */
             transform: rotate(0deg) scale(1.05) translateY(-10px) !important;
             /* Deep, dark shadow on lift */
             box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.25);
             z-index: 10; /* Bring to front */
         }
-        
+
         .gallery-item img { width: 100%; display: block; }
 
         /* LIGHTBOX */
@@ -232,7 +230,7 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         #lightbox img {
             max-width: 100%;
             max-height: 75vh;
@@ -349,6 +347,7 @@
     // Global State
     let galleryImages = []; 
     let currentImageIndex = 0; 
+    let observer; // For the scroll pop logic
 
     // 1. NAV LOGIC
     function showPage(pageId) {
@@ -365,6 +364,9 @@
             }
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // RE-RUN OBSERVER for new content
+        setTimeout(initScrollObserver, 100);
     }
 
     // 2. LIGHTBOX LOGIC
@@ -437,6 +439,9 @@
                 div.appendChild(img);
                 galleryContainer.appendChild(div);
             });
+            
+            // Once images are added, start the scroll observer
+            setTimeout(initScrollObserver, 500);
 
         } catch (error) {
             console.error('Gallery Error:', error);
@@ -444,7 +449,42 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', loadGallery);
+    // 4. MOBILE SCROLL POP LOGIC
+    function initScrollObserver() {
+        // ONLY run this on touch devices (so we don't annoy desktop mouse users)
+        if (window.matchMedia("(hover: none)").matches) {
+            
+            // Disconnect old observer if exists
+            if (observer) observer.disconnect();
+
+            const options = {
+                root: null,
+                // These negative margins create a "strip" in the middle of the screen
+                // The callback only fires when an image enters this middle zone
+                rootMargin: '-35% 0px -35% 0px', 
+                threshold: 0
+            };
+
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('mobile-pop');
+                    } else {
+                        entry.target.classList.remove('mobile-pop');
+                    }
+                });
+            }, options);
+
+            // Target both gallery items AND feature images
+            const targets = document.querySelectorAll('.gallery-item, .feature-img-wrapper');
+            targets.forEach(target => observer.observe(target));
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadGallery();
+        initScrollObserver();
+    });
 </script>
 
 </body>
