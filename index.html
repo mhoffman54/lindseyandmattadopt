@@ -2,50 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lindsey & Matt | Our Hearts are Open</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/833/833472.png">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Lora:ital,wght@1,500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* NEW: More Vibrant, Organic Palette */
-            --bg-gradient: linear-gradient(135deg, #FFF5E4 0%, #FFE3D8 100%); /* Soft Sunrise */
+            --bg-gradient: linear-gradient(135deg, #FFF5E4 0%, #FFE3D8 100%);
             --card-white: rgba(255, 255, 255, 0.92);
-            --terracotta: #E76F51; /* More vibrant orange-red */
-            --sage-green: #2A9D8F; /* Richer teal-green */
-            --deep-text: #264653; /* Softer than black, deep blue-grey */
+            --terracotta: #E76F51;
+            --sage-green: #2A9D8F;
+            --deep-text: #264653;
             --accent-gold: #E9C46A;
         }
 
-        /* RESET & BASE */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             margin: 0; 
             font-family: 'Quicksand', sans-serif; 
             background: var(--bg-gradient); 
-            background-attachment: fixed; /* Keeps gradient stable while scrolling */
+            background-attachment: fixed;
             color: var(--deep-text);
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        /* ANIMATIONS */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.98) translateY(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* HEADER - Now with organic curves */
         header {
             padding: 70px 20px 60px;
             text-align: center;
             background: white;
-            /* The "Wavy" bottom effect using border-radius */
             border-bottom-left-radius: 50% 20px;
             border-bottom-right-radius: 50% 20px;
             position: relative;
-            box-shadow: 0 10px 40px rgba(231, 111, 81, 0.1); /* Warm glow shadow */
+            box-shadow: 0 10px 40px rgba(231, 111, 81, 0.1);
         }
 
         h1 { 
@@ -54,7 +49,7 @@
             font-size: clamp(2.2rem, 5vw, 3.8rem); 
             line-height: 1.2;
             margin-bottom: 15px;
-            color: var(--terracotta); /* Pop of color in title */
+            color: var(--terracotta);
             animation: fadeInScale 1s ease-out;
         }
 
@@ -65,7 +60,6 @@
             color: #555;
         }
 
-        /* NAVIGATION - Colorful & Friendly */
         nav { 
             display: flex; 
             justify-content: center;
@@ -92,10 +86,10 @@
             border-radius: 30px;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent; /* Slightly chunkier border */
+            border: 2px solid transparent;
             font-size: 0.9rem;
             flex-shrink: 0;
-            background: rgba(233, 196, 106, 0.15); /* Subtle gold tint */
+            background: rgba(233, 196, 106, 0.15);
         }
 
         .nav-link.active {
@@ -105,14 +99,12 @@
             box-shadow: 0 4px 12px rgba(231, 111, 81, 0.4);
         }
 
-        /* MOBILE OPTIMIZATION */
         @media (max-width: 768px) {
             nav { justify-content: flex-start; padding: 15px; }
             header { padding-top: 50px; }
             .nav-link { padding: 8px 18px; }
         }
 
-        /* CARDS - Glassy & Warm */
         .page-content { 
             display: none; 
             padding: 40px 20px; 
@@ -127,33 +119,25 @@
             background: var(--card-white);
             border-radius: 30px;
             padding: 30px;
-            box-shadow: 0 15px 35px rgba(231, 111, 81, 0.08); /* Warm shadow */
+            box-shadow: 0 15px 35px rgba(231, 111, 81, 0.08);
             margin-bottom: 30px;
-            border: 2px solid white; /* crisp edge */
+            border: 2px solid white;
         }
 
         h2 { color: var(--sage-green); margin-top: 0; }
         h3 { color: var(--terracotta); }
 
-        /* --- UPDATED FEATURE IMAGE STYLES (3D EFFECT + SCROLL POP) --- */
         .feature-img-wrapper {
             overflow: hidden;
-            border-radius: 10px; /* Slightly sharper corners for photo look */
+            border-radius: 10px;
             margin-bottom: 25px;
-
-            /* White Photo Border */
             border: 6px solid #fff;
-
-            /* DARKER, DEEPER SHADOW for 3D effect */
             box-shadow: 5px 15px 35px rgba(50, 50, 93, 0.25), 0 5px 15px rgba(0, 0, 0, 0.15);
-
-            /* Base tilt */
             transform: rotate(-1.5deg); 
-            /* Smooth transition for transform AND shadow */
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-
-        /* Hover effect OR Mobile Scroll Pop */
+        
+        /* HOVER or POP Class */
         .feature-card:hover .feature-img-wrapper,
         .feature-img-wrapper.mobile-pop { 
             transform: rotate(0deg) scale(1.03) translateY(-8px); 
@@ -163,85 +147,73 @@
 
         .feature-img { width: 100%; display: block; }
 
-        /* DOG GRID */
         .dog-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 25px; 
         }
 
-        /* GALLERY GRID */
         .gallery-grid {
             column-count: 3;
-            column-gap: 25px; /* Increased gap for 3D floating space */
+            column-gap: 25px;
         }
         @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
         @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
 
-        /* --- UPDATED GALLERY ITEM STYLES (3D EFFECT + SCROLL POP) --- */
         .gallery-item {
             break-inside: avoid;
             margin-bottom: 25px;
-            border-radius: 8px; /* Slightly sharper like a real photo */
+            border-radius: 8px;
             overflow: hidden;
             background: #eee;
             position: relative;
-
-            /* WHITE PHOTO BORDER */
-            border: 6px solid white; 
-
+            border: 6px solid white;
             cursor: pointer;
-
-            /* DARKER 3D SHADOW */
             box-shadow: 5px 10px 20px rgba(0,0,0,0.25), 0 3px 6px rgba(0,0,0,0.1);
-
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-
-            /* Default slight tilt */
             transform: rotate(-1deg);
         }
 
-        /* SCATTERED EFFECT - Varying angles for different items */
         .gallery-item:nth-child(2n) { transform: rotate(1.5deg) translateY(5px); }
         .gallery-item:nth-child(3n) { transform: rotate(-2deg) translateX(-5px); }
         .gallery-item:nth-child(5n) { transform: rotate(0.5deg) translateY(-5px); }
         .gallery-item:nth-child(7n) { transform: rotate(2.5deg); }
 
-        /* HOVER EFFECT OR MOBILE POP */
+        /* HOVER or POP Class */
         .gallery-item:hover,
         .gallery-item.mobile-pop {
-            /* !important ensures this overrides the scattered rotation */
             transform: rotate(0deg) scale(1.05) translateY(-10px) !important;
-            /* Deep, dark shadow on lift */
             box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.25);
-            z-index: 10; /* Bring to front */
+            z-index: 10;
         }
-
+        
         .gallery-item img { width: 100%; display: block; }
 
-        /* LIGHTBOX */
         #lightbox {
             display: none;
             position: fixed;
             z-index: 2000;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(38, 70, 83, 0.95); /* Deep teal background */
+            background: rgba(38, 70, 83, 0.98);
             backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
         }
-
+        
+        /* FIX: Force image to take full width on mobile so it's not tiny */
         #lightbox img {
-            max-width: 100%;
-            max-height: 75vh;
+            width: 100%;       /* Force full width */
+            height: auto;      /* Keep aspect ratio */
+            max-width: 1000px; /* Don't get too crazy on desktop */
+            max-height: 85vh;  /* Keep it on screen */
+            object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 5px 30px rgba(0,0,0,0.5);
             border: 2px solid white;
         }
 
-        /* Touch Targets */
         .nav-zone {
-            position: absolute; top: 0; bottom: 0; width: 25%;
+            position: absolute; top: 0; bottom: 0; width: 20%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; z-index: 2010;
             font-size: 3rem; color: rgba(255,255,255,0.3);
@@ -347,9 +319,8 @@
     // Global State
     let galleryImages = []; 
     let currentImageIndex = 0; 
-    let observer; // For the scroll pop logic
+    let observer; 
 
-    // 1. NAV LOGIC
     function showPage(pageId) {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -364,12 +335,9 @@
             }
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        // RE-RUN OBSERVER for new content
         setTimeout(initScrollObserver, 100);
     }
 
-    // 2. LIGHTBOX LOGIC
     function openLightboxByIndex(index) {
         currentImageIndex = index;
         updateLightboxImage();
@@ -398,13 +366,10 @@
         document.body.style.overflow = 'auto';
     }
 
-    // 3. MAGIC GALLERY LOADER
     async function loadGallery() {
-        // --- EDIT YOUR INFO HERE ---
         const username = 'mhoffman54';
         const repo = 'lindseyandmattadopt';
         const folder = 'gallery';
-        // ---------------------------
 
         const galleryContainer = document.getElementById('magic-gallery');
         const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
@@ -416,7 +381,6 @@
             
             document.getElementById('loading-text').style.display = 'none';
 
-            // Filter for images
             const imageFiles = data.filter(file => file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i));
 
             if (imageFiles.length === 0) {
@@ -440,7 +404,6 @@
                 galleryContainer.appendChild(div);
             });
             
-            // Once images are added, start the scroll observer
             setTimeout(initScrollObserver, 500);
 
         } catch (error) {
@@ -449,19 +412,16 @@
         }
     }
 
-    // 4. MOBILE SCROLL POP LOGIC
+    // FIX: Removed the check for hover support. This now runs on ALL small screens.
     function initScrollObserver() {
-        // ONLY run this on touch devices (so we don't annoy desktop mouse users)
-        if (window.matchMedia("(hover: none)").matches) {
+        if (window.innerWidth < 900) {
             
-            // Disconnect old observer if exists
             if (observer) observer.disconnect();
 
             const options = {
                 root: null,
-                // These negative margins create a "strip" in the middle of the screen
-                // The callback only fires when an image enters this middle zone
-                rootMargin: '-35% 0px -35% 0px', 
+                // WIDENED THE ZONE: Now triggers when photo is in the middle 50% of screen
+                rootMargin: '-25% 0px -25% 0px', 
                 threshold: 0
             };
 
@@ -475,7 +435,6 @@
                 });
             }, options);
 
-            // Target both gallery items AND feature images
             const targets = document.querySelectorAll('.gallery-item, .feature-img-wrapper');
             targets.forEach(target => observer.observe(target));
         }
@@ -484,6 +443,10 @@
     document.addEventListener('DOMContentLoaded', () => {
         loadGallery();
         initScrollObserver();
+        // Re-check observer on scroll just in case
+        window.addEventListener('scroll', () => {
+             if(!observer) initScrollObserver();
+        }, { once: true });
     });
 </script>
 
