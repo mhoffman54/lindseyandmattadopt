@@ -127,20 +127,26 @@
         h2 { color: var(--sage-green); margin-top: 0; }
         h3 { color: var(--terracotta); }
 
+        /* --- FEATURE IMAGES (DRAMATIC POP) --- */
         .feature-img-wrapper {
             overflow: hidden;
             border-radius: 10px;
             margin-bottom: 25px;
             border: 6px solid #fff;
-            box-shadow: 5px 15px 35px rgba(50, 50, 93, 0.25), 0 5px 15px rgba(0, 0, 0, 0.15);
-            transform: rotate(-1.5deg); 
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            
+            /* Default state: Slightly smaller and less opaque */
+            transform: scale(0.95) rotate(-1.5deg);
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        /* HOVER or POP Class */
+        /* POP STATE (Center Screen) */
         .feature-card:hover .feature-img-wrapper,
         .feature-img-wrapper.mobile-pop { 
-            transform: rotate(0deg) scale(1.03) translateY(-8px); 
+            transform: scale(1.05) rotate(0deg) translateY(-5px); 
+            opacity: 1;
             box-shadow: 0 30px 60px rgba(50, 50, 93, 0.4), 0 10px 25px rgba(0, 0, 0, 0.2);
             z-index: 5;
         }
@@ -160,73 +166,103 @@
         @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
         @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
 
+        /* --- GALLERY ITEMS (DRAMATIC POP) --- */
         .gallery-item {
             break-inside: avoid;
-            margin-bottom: 25px;
+            margin-bottom: 30px; /* More space for popping */
             border-radius: 8px;
             overflow: hidden;
             background: #eee;
             position: relative;
             border: 6px solid white;
             cursor: pointer;
-            box-shadow: 5px 10px 20px rgba(0,0,0,0.25), 0 3px 6px rgba(0,0,0,0.1);
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            transform: rotate(-1deg);
+            
+            /* Default: Receded */
+            transform: scale(0.9);
+            opacity: 0.7; 
+            filter: grayscale(30%); /* Subtle grayscale when not focused */
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy transition */
         }
 
-        .gallery-item:nth-child(2n) { transform: rotate(1.5deg) translateY(5px); }
-        .gallery-item:nth-child(3n) { transform: rotate(-2deg) translateX(-5px); }
-        .gallery-item:nth-child(5n) { transform: rotate(0.5deg) translateY(-5px); }
-        .gallery-item:nth-child(7n) { transform: rotate(2.5deg); }
-
-        /* HOVER or POP Class */
+        /* POP STATE (Center Screen) */
         .gallery-item:hover,
         .gallery-item.mobile-pop {
-            transform: rotate(0deg) scale(1.05) translateY(-10px) !important;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.25);
+            transform: scale(1.05) translateY(-5px) !important;
+            opacity: 1;
+            filter: grayscale(0%);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.22);
             z-index: 10;
         }
         
         .gallery-item img { width: 100%; display: block; }
 
+        /* --- FROSTED LIGHTBOX --- */
         #lightbox {
             display: none;
             position: fixed;
             z-index: 2000;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(38, 70, 83, 0.98);
-            backdrop-filter: blur(5px);
+            
+            /* NO COLOR, JUST BLUR */
+            background: rgba(255, 255, 255, 0.05); /* Tiny bit of white to help contrast */
+            backdrop-filter: blur(15px) brightness(0.6); /* Heavy blur + dimming */
+            -webkit-backdrop-filter: blur(15px) brightness(0.6);
+            
             justify-content: center;
             align-items: center;
         }
         
-        /* FIX: Force image to take full width on mobile so it's not tiny */
         #lightbox img {
-            width: 100%;       /* Force full width */
-            height: auto;      /* Keep aspect ratio */
-            max-width: 1000px; /* Don't get too crazy on desktop */
-            max-height: 85vh;  /* Keep it on screen */
+            width: 100%;
+            height: auto;
+            max-width: 1000px;
+            max-height: 85vh;
             object-fit: contain;
             border-radius: 8px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.5);
-            border: 2px solid white;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.6); /* Deep shadow to separate from bg */
+            border: 2px solid rgba(255,255,255,0.8);
+            transition: transform 0.2s ease; /* For swipe tracking */
         }
 
+        /* Nav Zones (Hidden but functional) */
         .nav-zone {
-            position: absolute; top: 0; bottom: 0; width: 20%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; z-index: 2010;
-            font-size: 3rem; color: rgba(255,255,255,0.3);
-            user-select: none;
+            position: absolute; top: 0; bottom: 0; width: 15%;
+            z-index: 2010;
         }
-        .nav-zone:active { color: white; background: rgba(255,255,255,0.05); }
         #zone-left { left: 0; }
         #zone-right { right: 0; }
 
         #lightbox-close {
             position: absolute; top: 20px; right: 20px;
-            font-size: 2.5rem; color: white; padding: 10px;
-            z-index: 2020; cursor: pointer;
+            font-size: 2.5rem; color: rgba(255,255,255,0.8); padding: 10px;
+            z-index: 2020; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* --- ANIMATED SWIPE HINT --- */
+        @keyframes swipeHintAnim {
+            0% { opacity: 0; transform: translateX(0) rotate(10deg); }
+            20% { opacity: 1; transform: translateX(0) rotate(10deg); }
+            50% { transform: translateX(-40px) rotate(0deg); } /* Swipe Left */
+            80% { opacity: 1; transform: translateX(0) rotate(10deg); }
+            100% { opacity: 0; transform: translateX(0); }
+        }
+
+        #swipe-hint {
+            position: absolute;
+            top: 50%; left: 50%;
+            margin-top: -50px; margin-left: -50px; /* Center it */
+            width: 100px; height: 100px;
+            z-index: 2050;
+            pointer-events: none; /* Let clicks pass through */
+            display: none;
+        }
+        
+        #swipe-hint img {
+            width: 60px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+            animation: swipeHintAnim 2.5s ease-in-out forwards;
         }
     </style>
 </head>
@@ -310,9 +346,15 @@
 
 <div id="lightbox">
     <div id="lightbox-close" onclick="closeLightbox()">&times;</div>
-    <div id="zone-left" class="nav-zone" onclick="changeImage(-1)">&#8249;</div>
-    <div id="zone-right" class="nav-zone" onclick="changeImage(1)">&#8250;</div>
+    
+    <div id="zone-left" class="nav-zone" onclick="changeImage(-1)"></div>
+    <div id="zone-right" class="nav-zone" onclick="changeImage(1)"></div>
+    
     <img id="lightbox-img" src="">
+    
+    <div id="swipe-hint">
+        <img src="https://cdn-icons-png.flaticon.com/512/2916/2916315.png" alt="Swipe to navigate" style="filter: invert(1);"> 
+    </div>
 </div>
 
 <script>
@@ -320,6 +362,11 @@
     let galleryImages = []; 
     let currentImageIndex = 0; 
     let observer; 
+    let hintShown = false; // To ensure hint only shows once
+    
+    // Swipe Variables
+    let touchStartX = 0;
+    let touchEndX = 0;
 
     function showPage(pageId) {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
@@ -343,6 +390,19 @@
         updateLightboxImage();
         document.getElementById('lightbox').style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        
+        // Show Swipe Hint ONLY the first time
+        if (!hintShown) {
+            const hint = document.getElementById('swipe-hint');
+            hint.style.display = 'block';
+            
+            // Hide it after animation completes (2.5s)
+            setTimeout(() => {
+                hint.style.display = 'none';
+            }, 2600);
+            
+            hintShown = true;
+        }
     }
 
     function changeImage(direction) {
@@ -355,6 +415,7 @@
     function updateLightboxImage() {
         const img = document.getElementById('lightbox-img');
         img.style.opacity = '0.5';
+        img.style.transform = 'translateX(0)'; // Reset swipe position
         setTimeout(() => {
              img.src = galleryImages[currentImageIndex];
              img.style.opacity = '1';
@@ -366,11 +427,32 @@
         document.body.style.overflow = 'auto';
     }
 
+    // --- SWIPE LOGIC ---
+    const lightbox = document.getElementById('lightbox');
+    
+    lightbox.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    lightbox.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, {passive: true});
+
+    function handleSwipe() {
+        const swipeThreshold = 50; // Minimum distance to count as swipe
+        if (touchEndX < touchStartX - swipeThreshold) {
+            changeImage(1); // Swipe Left -> Next
+        }
+        if (touchEndX > touchStartX + swipeThreshold) {
+            changeImage(-1); // Swipe Right -> Prev
+        }
+    }
+
     async function loadGallery() {
         const username = 'mhoffman54';
         const repo = 'lindseyandmattadopt';
         const folder = 'gallery';
-
         const galleryContainer = document.getElementById('magic-gallery');
         const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
 
@@ -380,7 +462,6 @@
             const data = await response.json();
             
             document.getElementById('loading-text').style.display = 'none';
-
             const imageFiles = data.filter(file => file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i));
 
             if (imageFiles.length === 0) {
@@ -394,12 +475,9 @@
                 const div = document.createElement('div');
                 div.className = 'gallery-item';
                 div.onclick = function() { openLightboxByIndex(index); };
-
                 const img = document.createElement('img');
                 img.src = file.download_url;
                 img.loading = 'lazy';
-                img.alt = 'Gallery Photo';
-
                 div.appendChild(img);
                 galleryContainer.appendChild(div);
             });
@@ -412,16 +490,14 @@
         }
     }
 
-    // FIX: Removed the check for hover support. This now runs on ALL small screens.
     function initScrollObserver() {
         if (window.innerWidth < 900) {
-            
             if (observer) observer.disconnect();
 
             const options = {
                 root: null,
-                // WIDENED THE ZONE: Now triggers when photo is in the middle 50% of screen
-                rootMargin: '-25% 0px -25% 0px', 
+                // STRICTER ZONE: -45% means only the center 10% of the screen activates the pop
+                rootMargin: '-45% 0px -45% 0px', 
                 threshold: 0
             };
 
@@ -443,10 +519,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         loadGallery();
         initScrollObserver();
-        // Re-check observer on scroll just in case
-        window.addEventListener('scroll', () => {
-             if(!observer) initScrollObserver();
-        }, { once: true });
+        window.addEventListener('scroll', () => { if(!observer) initScrollObserver(); }, { once: true });
     });
 </script>
 
