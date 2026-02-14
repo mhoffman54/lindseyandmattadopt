@@ -127,25 +127,26 @@
         h2 { color: var(--sage-green); margin-top: 0; }
         h3 { color: var(--terracotta); }
 
-        /* --- FEATURE IMAGES (DRAMATIC POP) --- */
+        /* --- FEATURE IMAGES (SCATTERED) --- */
         .feature-img-wrapper {
             overflow: hidden;
             border-radius: 10px;
             margin-bottom: 25px;
-            border: 6px solid #fff;
+            border: 8px solid #fff; /* Thicker border for photo look */
             
-            /* Default state: Slightly smaller and less opaque */
-            transform: scale(0.95) rotate(-1.5deg);
+            /* Aggressive Tilt Default */
+            transform: scale(0.95) rotate(-3deg);
             opacity: 0.9;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 5px 10px 20px rgba(0,0,0,0.15);
             
             transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        /* POP STATE (Center Screen) */
+        /* POP STATE (Center Screen / Hover) */
         .feature-card:hover .feature-img-wrapper,
         .feature-img-wrapper.mobile-pop { 
-            transform: scale(1.05) rotate(0deg) translateY(-5px); 
+            /* Snap straight and pop up */
+            transform: scale(1.05) rotate(0deg) translateY(-8px); 
             opacity: 1;
             box-shadow: 0 30px 60px rgba(50, 50, 93, 0.4), 0 10px 25px rgba(0, 0, 0, 0.2);
             z-index: 5;
@@ -161,39 +162,51 @@
 
         .gallery-grid {
             column-count: 3;
-            column-gap: 25px;
+            column-gap: 30px; /* More gap to allow for rotation */
+            padding: 10px;
         }
         @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
         @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
 
-        /* --- GALLERY ITEMS (DRAMATIC POP) --- */
+        /* --- GALLERY ITEMS (AGGRESSIVE SCATTER) --- */
         .gallery-item {
             break-inside: avoid;
-            margin-bottom: 30px; /* More space for popping */
-            border-radius: 8px;
+            margin-bottom: 40px; /* More space so they don't crash into each other */
+            border-radius: 6px;
             overflow: hidden;
             background: #eee;
             position: relative;
-            border: 6px solid white;
+            border: 8px solid white; /* Classic Photo Border */
             cursor: pointer;
             
-            /* Default: Receded */
-            transform: scale(0.9);
-            opacity: 0.7; 
-            filter: grayscale(30%); /* Subtle grayscale when not focused */
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            /* Default: Receded and Faded */
+            opacity: 0.8; 
+            filter: grayscale(20%);
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.1);
             
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy transition */
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* POP STATE (Center Screen) */
+        /* RANDOM SCATTER LOGIC */
+        /* Tilt Right */
+        .gallery-item:nth-child(2n) { transform: scale(0.9) rotate(3.5deg); }
+        /* Tilt Left */
+        .gallery-item:nth-child(3n) { transform: scale(0.9) rotate(-3.5deg) translateX(-5px); }
+        /* Tilt Up/Right */
+        .gallery-item:nth-child(5n) { transform: scale(0.9) rotate(2deg) translateY(-5px); }
+        /* Tilt Hard Left */
+        .gallery-item:nth-child(7n) { transform: scale(0.9) rotate(-4.5deg); }
+
+        /* POP STATE (Center Screen / Hover) */
         .gallery-item:hover,
         .gallery-item.mobile-pop {
-            transform: scale(1.05) translateY(-5px) !important;
+            /* SNAP STRAIGHT */
+            transform: scale(1.05) rotate(0deg) translateY(-10px) !important;
             opacity: 1;
             filter: grayscale(0%);
+            /* DEEP SHADOW */
             box-shadow: 0 25px 50px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.22);
-            z-index: 10;
+            z-index: 100;
         }
         
         .gallery-item img { width: 100%; display: block; }
@@ -204,12 +217,9 @@
             position: fixed;
             z-index: 2000;
             top: 0; left: 0; width: 100%; height: 100%;
-            
-            /* NO COLOR, JUST BLUR */
-            background: rgba(255, 255, 255, 0.05); /* Tiny bit of white to help contrast */
-            backdrop-filter: blur(15px) brightness(0.6); /* Heavy blur + dimming */
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(15px) brightness(0.6); 
             -webkit-backdrop-filter: blur(15px) brightness(0.6);
-            
             justify-content: center;
             align-items: center;
         }
@@ -221,12 +231,11 @@
             max-height: 85vh;
             object-fit: contain;
             border-radius: 8px;
-            box-shadow: 0 20px 80px rgba(0,0,0,0.6); /* Deep shadow to separate from bg */
+            box-shadow: 0 20px 80px rgba(0,0,0,0.6);
             border: 2px solid rgba(255,255,255,0.8);
-            transition: transform 0.2s ease; /* For swipe tracking */
+            transition: transform 0.2s ease;
         }
 
-        /* Nav Zones (Hidden but functional) */
         .nav-zone {
             position: absolute; top: 0; bottom: 0; width: 15%;
             z-index: 2010;
@@ -244,7 +253,7 @@
         @keyframes swipeHintAnim {
             0% { opacity: 0; transform: translateX(0) rotate(10deg); }
             20% { opacity: 1; transform: translateX(0) rotate(10deg); }
-            50% { transform: translateX(-40px) rotate(0deg); } /* Swipe Left */
+            50% { transform: translateX(-40px) rotate(0deg); }
             80% { opacity: 1; transform: translateX(0) rotate(10deg); }
             100% { opacity: 0; transform: translateX(0); }
         }
@@ -252,10 +261,10 @@
         #swipe-hint {
             position: absolute;
             top: 50%; left: 50%;
-            margin-top: -50px; margin-left: -50px; /* Center it */
+            margin-top: -50px; margin-left: -50px;
             width: 100px; height: 100px;
             z-index: 2050;
-            pointer-events: none; /* Let clicks pass through */
+            pointer-events: none;
             display: none;
         }
         
@@ -346,25 +355,20 @@
 
 <div id="lightbox">
     <div id="lightbox-close" onclick="closeLightbox()">&times;</div>
-    
     <div id="zone-left" class="nav-zone" onclick="changeImage(-1)"></div>
     <div id="zone-right" class="nav-zone" onclick="changeImage(1)"></div>
-    
     <img id="lightbox-img" src="">
-    
     <div id="swipe-hint">
         <img src="https://cdn-icons-png.flaticon.com/512/2916/2916315.png" alt="Swipe to navigate" style="filter: invert(1);"> 
     </div>
 </div>
 
 <script>
-    // Global State
     let galleryImages = []; 
     let currentImageIndex = 0; 
     let observer; 
-    let hintShown = false; // To ensure hint only shows once
+    let hintShown = false; 
     
-    // Swipe Variables
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -391,16 +395,10 @@
         document.getElementById('lightbox').style.display = 'flex';
         document.body.style.overflow = 'hidden';
         
-        // Show Swipe Hint ONLY the first time
         if (!hintShown) {
             const hint = document.getElementById('swipe-hint');
             hint.style.display = 'block';
-            
-            // Hide it after animation completes (2.5s)
-            setTimeout(() => {
-                hint.style.display = 'none';
-            }, 2600);
-            
+            setTimeout(() => { hint.style.display = 'none'; }, 2600);
             hintShown = true;
         }
     }
@@ -415,7 +413,7 @@
     function updateLightboxImage() {
         const img = document.getElementById('lightbox-img');
         img.style.opacity = '0.5';
-        img.style.transform = 'translateX(0)'; // Reset swipe position
+        img.style.transform = 'translateX(0)';
         setTimeout(() => {
              img.src = galleryImages[currentImageIndex];
              img.style.opacity = '1';
@@ -427,26 +425,16 @@
         document.body.style.overflow = 'auto';
     }
 
-    // --- SWIPE LOGIC ---
     const lightbox = document.getElementById('lightbox');
-    
-    lightbox.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
-
-    lightbox.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
+    lightbox.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+    lightbox.addEventListener('touchend', e => { 
+        touchEndX = e.changedTouches[0].screenX; 
+        handleSwipe(); 
     }, {passive: true});
 
     function handleSwipe() {
-        const swipeThreshold = 50; // Minimum distance to count as swipe
-        if (touchEndX < touchStartX - swipeThreshold) {
-            changeImage(1); // Swipe Left -> Next
-        }
-        if (touchEndX > touchStartX + swipeThreshold) {
-            changeImage(-1); // Swipe Right -> Prev
-        }
+        if (touchEndX < touchStartX - 50) changeImage(1);
+        if (touchEndX > touchStartX + 50) changeImage(-1);
     }
 
     async function loadGallery() {
@@ -491,29 +479,28 @@
     }
 
     function initScrollObserver() {
-        if (window.innerWidth < 900) {
-            if (observer) observer.disconnect();
+        // ALWAYS run observer (removed hover check)
+        if (observer) observer.disconnect();
 
-            const options = {
-                root: null,
-                // STRICTER ZONE: -45% means only the center 10% of the screen activates the pop
-                rootMargin: '-45% 0px -45% 0px', 
-                threshold: 0
-            };
+        const options = {
+            root: null,
+            // Trigger in center 10% of screen
+            rootMargin: '-45% 0px -45% 0px', 
+            threshold: 0
+        };
 
-            observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('mobile-pop');
-                    } else {
-                        entry.target.classList.remove('mobile-pop');
-                    }
-                });
-            }, options);
+        observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('mobile-pop');
+                } else {
+                    entry.target.classList.remove('mobile-pop');
+                }
+            });
+        }, options);
 
-            const targets = document.querySelectorAll('.gallery-item, .feature-img-wrapper');
-            targets.forEach(target => observer.observe(target));
-        }
+        const targets = document.querySelectorAll('.gallery-item, .feature-img-wrapper');
+        targets.forEach(target => observer.observe(target));
     }
 
     document.addEventListener('DOMContentLoaded', () => {
