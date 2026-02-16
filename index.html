@@ -269,6 +269,84 @@
             opacity: 0.9;
             animation: fadeInScale 2s infinite;
         }
+
+        /* --- FLOATING CONTACT BUTTON --- */
+        .floating-contact {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--terracotta);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(231, 111, 81, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .floating-contact:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(231, 111, 81, 0.5);
+        }
+
+        .contact-info-popup {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            z-index: 999;
+            min-width: 250px;
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: fadeInScale 0.3s ease-out;
+        }
+
+        .contact-info-popup h3 {
+            margin: 0 0 10px 0;
+            color: var(--terracotta);
+            font-size: 1.2rem;
+        }
+
+        .contact-info-popup p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+            color: var(--deep-text);
+        }
+
+        .contact-info-popup a {
+            color: var(--sage-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* --- SAVE TO CONTACTS BUTTON --- */
+        .save-contact-btn {
+            display: block;
+            margin-top: 15px;
+            background: var(--sage-green);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .save-contact-btn:hover {
+            background: #238b7e;
+            transform: scale(1.02);
+        }
+
     </style>
 </head>
 <body>
@@ -285,6 +363,7 @@
     <a class="nav-link" onclick="showPage('dogs')">The Dogs</a>
     <a class="nav-link" onclick="showPage('home')">Our Home</a>
     <a class="nav-link" onclick="showPage('gallery')">Gallery</a>
+    <a class="nav-link" onclick="showPage('contact')">Contact Us</a>
 </nav>
 
 <div id="story" class="page-content active">
@@ -349,6 +428,31 @@
     </div>
 </div>
 
+<div id="contact" class="page-content">
+    <div class="feature-card" style="text-align:center;">
+        <h2 style="font-family: 'Lora', serif;">Get in Touch</h2>
+        <p>We would love to hear from you. Feel free to call, text, or email us anytime.</p>
+        
+        <div style="margin: 30px 0; font-size: 1.1rem;">
+            <p><strong>Call or Text:</strong> <br><a href="tel:6123898469" style="color:var(--terracotta); text-decoration:none;">(612) 389-8469</a></p>
+            <p><strong>Email:</strong> <br><a href="mailto:LindseyAndMattMN@gmail.com" style="color:var(--terracotta); text-decoration:none;">LindseyAndMattMN@gmail.com</a></p>
+        </div>
+
+        <a href="#" onclick="downloadVCard(); return false;" class="save-contact-btn" style="display:inline-block; padding: 15px 30px; font-size:1rem;">Save to Contacts</a>
+    </div>
+</div>
+
+<div class="floating-contact" onclick="toggleContactPopup()">
+    <span>📞 Contact Us</span>
+</div>
+
+<div id="contact-popup" class="contact-info-popup">
+    <h3>Get in Touch</h3>
+    <p><strong>Call or Text:</strong> <br><a href="tel:6123898469">(612) 389-8469</a></p>
+    <p><strong>Email:</strong> <br><a href="mailto:LindseyAndMattMN@gmail.com">LindseyAndMattMN@gmail.com</a></p>
+    <a href="#" onclick="downloadVCard(); return false;" class="save-contact-btn">Save to Contacts</a>
+</div>
+
 <div id="lightbox">
     <div id="lightbox-close" onclick="closeLightbox()">&times;</div>
     
@@ -389,6 +493,35 @@
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(initScrollObserver, 100);
+    }
+
+    // Toggle Floating Contact Popup
+    function toggleContactPopup() {
+        const popup = document.getElementById('contact-popup');
+        if (popup.style.display === 'block') {
+            popup.style.display = 'none';
+        } else {
+            popup.style.display = 'block';
+        }
+    }
+
+    // Generate and Download vCard
+    function downloadVCard() {
+        const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Lindsey & Matt
+TEL;TYPE=CELL:(612) 389-8469
+EMAIL:LindseyAndMattMN@gmail.com
+END:VCARD`;
+
+        const blob = new Blob([vCardData], { type: 'text/vcard' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Lindsey_and_Matt.vcf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }
 
     function openLightboxByIndex(index) {
@@ -507,6 +640,15 @@
         loadGallery();
         initScrollObserver();
         window.addEventListener('scroll', () => { if(!observer) initScrollObserver(); }, { once: true });
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('contact-popup');
+            const button = document.querySelector('.floating-contact');
+            if (!popup.contains(event.target) && !button.contains(event.target) && popup.style.display === 'block') {
+                popup.style.display = 'none';
+            }
+        });
     });
 </script>
 
