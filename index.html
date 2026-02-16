@@ -195,6 +195,53 @@
         
         .gallery-item img { width: 100%; display: block; }
 
+        /* --- REELS TAB STYLES --- */
+        #reels-container {
+            /* Create a tall window for scrolling */
+            height: 75vh;
+            width: 100%;
+            max-width: 500px; /* Restrict width on desktop so it looks like a phone */
+            margin: 0 auto;
+            background: #000;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            
+            /* THE MAGIC SCROLL PHYSICS */
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none; /* Hide scrollbar */
+        }
+        #reels-container::-webkit-scrollbar { display: none; }
+
+        .reel-item {
+            /* Each video takes up exactly one "screen" of height */
+            height: 100%;
+            width: 100%;
+            scroll-snap-align: start; /* Snap to the top of this element */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+        }
+
+        .reel-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Fill the container (like TikTok) */
+        }
+        
+        .reel-caption {
+            position: absolute;
+            bottom: 60px;
+            left: 20px;
+            right: 20px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            z-index: 10;
+            pointer-events: none;
+        }
+
         /* --- FROSTED LIGHTBOX --- */
         #lightbox {
             display: none;
@@ -327,12 +374,11 @@
             font-weight: 600;
         }
 
-        /* --- SAVE TO CONTACTS BUTTON (FIXED COLOR) --- */
         .save-contact-btn {
             display: block;
             margin-top: 15px;
             background: var(--sage-green);
-            color: #ffffff !important; /* Force white text */
+            color: #ffffff !important;
             padding: 10px 15px;
             border-radius: 20px;
             text-align: center;
@@ -363,7 +409,7 @@
     <a class="nav-link" onclick="showPage('matt')">Meet Matt</a>
     <a class="nav-link" onclick="showPage('dogs')">The Dogs</a>
     <a class="nav-link" onclick="showPage('home')">Our Home</a>
-    <a class="nav-link" onclick="showPage('gallery')">Gallery</a>
+    <a class="nav-link" onclick="showPage('reels')">Reels</a> <a class="nav-link" onclick="showPage('gallery')">Gallery</a>
     <a class="nav-link" onclick="showPage('contact')">Contact Us</a>
 </nav>
 
@@ -418,6 +464,17 @@
     </div>
 </div>
 
+<div id="reels" class="page-content">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="font-family: 'Lora', serif;">Video Moments</h2>
+        <p>Swipe up to see more.</p>
+    </div>
+    
+    <div id="reels-container">
+        <p id="reels-loading" style="color:white; text-align:center; padding-top:50%;">Loading Videos...</p>
+    </div>
+</div>
+
 <div id="gallery" class="page-content">
     <div style="text-align: center; margin-bottom: 30px;">
         <h2 style="font-family: 'Lora', serif;">Our Life in Pictures</h2>
@@ -459,12 +516,9 @@
 
 <div id="lightbox">
     <div id="lightbox-close" onclick="closeLightbox()">&times;</div>
-    
     <div id="zone-left" class="nav-zone" onclick="changeImage(-1)"></div>
     <div id="zone-right" class="nav-zone" onclick="changeImage(1)"></div>
-    
     <img id="lightbox-img" src="">
-    
     <div id="swipe-hint">
         <svg viewBox="0 0 24 24" fill="white">
             <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/>
@@ -477,6 +531,7 @@
     let galleryImages = []; 
     let currentImageIndex = 0; 
     let observer; 
+    let reelsObserver; // Separate observer for video playback
     let hintShown = false; 
     
     let touchStartX = 0;
@@ -497,9 +552,16 @@
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(initScrollObserver, 100);
+        
+        // If Reels page is shown, trigger reel loading/observing
+        if (pageId === 'reels') {
+            loadReels();
+        } else {
+            // If leaving reels, pause all videos
+            document.querySelectorAll('video').forEach(vid => vid.pause());
+        }
     }
 
-    // Toggle Floating Contact Popup
     function toggleContactPopup() {
         const popup = document.getElementById('contact-popup');
         if (popup.style.display === 'block') {
@@ -509,7 +571,6 @@
         }
     }
 
-    // Generate and Download vCard
     function downloadVCard() {
         const vCardData = `BEGIN:VCARD
 VERSION:3.0
@@ -517,7 +578,6 @@ FN:Lindsey & Matt
 TEL;TYPE=CELL:(612) 389-8469
 EMAIL:LindseyAndMattMN@gmail.com
 END:VCARD`;
-
         const blob = new Blob([vCardData], { type: 'text/vcard' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -574,6 +634,83 @@ END:VCARD`;
     function handleSwipe() {
         if (touchEndX < touchStartX - 50) changeImage(1);
         if (touchEndX > touchStartX + 50) changeImage(-1);
+    }
+
+    // --- REELS LOGIC ---
+    let reelsLoaded = false;
+    async function loadReels() {
+        if (reelsLoaded) {
+            // Just re-attach observer if needed
+            if (!reelsObserver) initReelsObserver();
+            return;
+        }
+
+        const username = 'mhoffman54';
+        const repo = 'lindseyandmattadopt';
+        const folder = 'reels'; // Make sure this folder exists in GitHub!
+        const reelsContainer = document.getElementById('reels-container');
+        const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error('Reels Folder not found');
+            const data = await response.json();
+            
+            document.getElementById('reels-loading').style.display = 'none';
+            const videoFiles = data.filter(file => file.name.match(/\.(mp4|mov|webm)$/i));
+
+            if (videoFiles.length === 0) {
+                reelsContainer.innerHTML = '<p style="text-align:center; color:white; padding-top:50px;">No reels uploaded yet!</p>';
+                return;
+            }
+
+            videoFiles.forEach((file) => {
+                const div = document.createElement('div');
+                div.className = 'reel-item';
+                
+                // Playsinline is crucial for mobile autoplay
+                const video = document.createElement('video');
+                video.src = file.download_url;
+                video.controls = true; // Show controls so they can unmute/scrub
+                video.playsInline = true; 
+                video.loop = true;
+                
+                div.appendChild(video);
+                reelsContainer.appendChild(div);
+            });
+            
+            reelsLoaded = true;
+            initReelsObserver();
+
+        } catch (error) {
+            console.error('Reels Error:', error);
+            document.getElementById('reels-loading').innerText = 'Upload .mp4 files to a "reels" folder in GitHub!';
+        }
+    }
+
+    function initReelsObserver() {
+        if (reelsObserver) reelsObserver.disconnect();
+
+        const options = {
+            root: document.getElementById('reels-container'), // Scope to the scroll container
+            threshold: 0.6 // Video must be 60% visible to play
+        };
+
+        reelsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting) {
+                    // Try to play. Note: Browsers block unmuted autoplay. 
+                    // If user hasn't interacted, this might fail unless muted.
+                    video.play().catch(e => console.log("Autoplay blocked, waiting for user interaction"));
+                } else {
+                    video.pause();
+                }
+            });
+        }, options);
+
+        const reelItems = document.querySelectorAll('.reel-item');
+        reelItems.forEach(item => reelsObserver.observe(item));
     }
 
     async function loadGallery() {
@@ -645,7 +782,6 @@ END:VCARD`;
         initScrollObserver();
         window.addEventListener('scroll', () => { if(!observer) initScrollObserver(); }, { once: true });
         
-        // Close popup when clicking outside
         document.addEventListener('click', function(event) {
             const popup = document.getElementById('contact-popup');
             const button = document.querySelector('.floating-contact');
